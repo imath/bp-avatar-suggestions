@@ -1,0 +1,102 @@
+# Copyright (C) 2012 BP Avatar Suggestions
+# This file is distributed under the same license as the BP Avatar Suggestions package.
+msgid ""
+msgstr ""
+"Project-Id-Version: BP Avatar Suggestions 1.0\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/bp-checkins\n"
+"POT-Creation-Date: 2012-08-07 14:50:39+00:00\n"
+"PO-Revision-Date: 2012-11-24 18:45+0100\n"
+"Last-Translator: imath <i-math@club.fr>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
+
+#: includes/bp-avatar-suggestions-front.php:44
+msgid "Bravo, i also like this one!"
+msgstr "Bravo, il est sympa celui là !"
+
+#: includes/bp-avatar-suggestions-front.php:45
+#: includes/bp-avatar-suggestions-admin.php:265
+msgid "OOps something went wrong."
+msgstr "Oops une erreur est survenue"
+
+#: includes/bp-avatar-suggestions-front.php:46
+msgid "Avatar deleted."
+msgstr "Avatar supprimé"
+
+#: includes/bp-avatar-suggestions-front.php:47
+msgid "Please select an avatar"
+msgstr "Merci de choisir un avatar"
+
+#: includes/bp-avatar-suggestions-front.php:48
+msgid "Or choose one the suggested avatars below."
+msgstr "Ou choisissez en un dans la liste ci-dessous"
+
+#: includes/bp-avatar-suggestions-front.php:49
+msgid "Activate"
+msgstr "Activer"
+
+#: includes/bp-avatar-suggestions-front.php:50
+msgid "Deactivate"
+msgstr "Désactiver"
+
+#: includes/bp-avatar-suggestions-admin.php:14
+#: includes/bp-avatar-suggestions-admin.php:50
+#: includes/bp-avatar-suggestions-admin.php:162
+msgid "Avatar Suggestions"
+msgstr "Suggestions d&#39;Avatars"
+
+#: includes/bp-avatar-suggestions-admin.php:25
+msgid "Allow registered members to choose a suggested avatar"
+msgstr ""
+"Autoriser les membres enregistrés à choisir parmi les suggestions d&#39;"
+"avatar"
+
+#: includes/bp-avatar-suggestions-admin.php:133
+msgid "Settings updated !"
+msgstr "Réglages enregistrés !"
+
+#: includes/bp-avatar-suggestions-admin.php:175
+#: includes/bp-avatar-suggestions-admin.php:181
+msgid "Avatars"
+msgstr "Avatars"
+
+#: includes/bp-avatar-suggestions-admin.php:176
+#: includes/bp-avatar-suggestions-admin.php:182
+msgid "Actions"
+msgstr "Actions"
+
+#: includes/bp-avatar-suggestions-admin.php:195
+msgid "Delete this avatar"
+msgstr "Supprimer cet avatar"
+
+#: includes/bp-avatar-suggestions-admin.php:212
+#: includes/bp-avatar-suggestions-admin.php:217
+msgid "New Avatar"
+msgstr "Nouvel Avatar"
+
+#: includes/bp-avatar-suggestions-admin.php:224
+msgid "Add an avatar"
+msgstr "Ajouter un avatar"
+
+#: includes/bp-avatar-suggestions-admin.php:231
+msgid ""
+"To add an avatar, click on the &#39;Add an avatar&#39; button then in the "
+"thickbox window, upload your avatar. Once done, click on the insert into "
+"post button of the thickbox. The avatar will show at the left of the &#39;"
+"Add an avatar&#39; button. Finally, use the &#39;Save Settings&#39; button "
+"to update the avatar suggestions list."
+msgstr ""
+"Pour ajouter un avatar, il suffit de cliquer sur le bouton &#39;Ajouter un "
+"avatar&#39; puis depuis la fenêtre thickbox qui se sera lancée de "
+"télécharger votre avatar. Ensuite, pensez à cliquer sur le bouton &#39;"
+"Insérer dans l&#39;article&#39; du gestionnaire de média de WordPress. L&#39;"
+"avatar sera alors affiché à la gauche du bouton &#39;Ajouter un avatar&#39;, "
+"il ne vous restera plus qu&#39;à cliquer sur le bouton &#39;Enregistrer "
+"Réglages&#39; pour actualiser la liste des suggestions d&#39;avatar."
+
+#: includes/bp-avatar-suggestions-admin.php:237
+msgid "Save Settings"
+msgstr "Enregistrer Réglages"
