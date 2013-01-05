@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the BP Avatar Suggestions package.
 msgid ""
 msgstr ""
-"Project-Id-Version: BP Avatar Suggestions 1.0-beta1\n"
+"Project-Id-Version: BP Avatar Suggestions 1.1-beta1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/bp-avatar-suggestions\n"
-"POT-Creation-Date: 2013-01-05 17:22:55+00:00\n"
+"POT-Creation-Date: 2013-01-05 21:53:34+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -80,7 +80,7 @@ msgid "Please select an avatar"
 msgstr ""
 
 #: includes/bp-avatar-suggestions-front.php:48
-msgid "Or choose one the suggested avatars below."
+msgid "Or choose one of the suggested avatars below:"
 msgstr ""
 
 #: includes/bp-avatar-suggestions-front.php:49

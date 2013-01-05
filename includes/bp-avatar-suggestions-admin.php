@@ -272,6 +272,9 @@ function bp_as_admin_load_js(){
 function bp_as_avatar_ajax_delete(){
 	$post_id = $_POST['attachmentid'];
 	
+	//first we need to catch the url of the image
+	$deleted_url = wp_get_attachment_image_src( $post_id, array(150, 150) );
+	
 	$result = wp_delete_attachment( $post_id, true );
 	
 	if( $result->ID ){
@@ -287,6 +290,9 @@ function bp_as_avatar_ajax_delete(){
 			
 		else
 			delete_option('suggestion_list_avatar_array');
+			
+		// we also need to delete all the user metas with the deleted_url !
+		delete_metadata('user', false, 'user_avatar_choice', $deleted_url[0], true);
 		
 		echo $result->ID;
 	}

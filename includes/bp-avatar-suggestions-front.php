@@ -45,7 +45,7 @@ function bp_as_front_load_js(){
 						'error'            => __('OOps something went wrong.', 'bp-avatar-suggestions' ),
 						'delsuccess'       => __('Avatar deleted.', 'bp-avatar-suggestions' ),
 						'noselection'      => __('Please select an avatar', 'bp-avatar-suggestions' ),
-						'intro'            => __('Or choose one the suggested avatars below.', 'bp-avatar-suggestions' ),
+						'intro'            => __('Or choose one of the suggested avatars below:', 'bp-avatar-suggestions' ),
 						'btn_activate'     => __('Activate', 'bp-avatar-suggestions' ),
 						'btn_deactivate'   => __('Deactivate', 'bp-avatar-suggestions' )
 					);
@@ -114,7 +114,10 @@ function bp_as_front_avatar_delete(){
 		
 		do_action( 'bp_core_delete_existing_avatar');
 		
-		bp_core_redirect( wp_get_referer() . "?del-avatar");
+		// avoid the upload new avatar bug.
+		if( empty( $_FILES["file"]["name"] ) )
+			bp_core_redirect( wp_get_referer() . "?del-avatar");
+		
 	}
 	
 }

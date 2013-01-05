@@ -73,6 +73,16 @@ jQuery(document).ready(function($){
 		$('html, body').animate({ scrollTop: $("#item-header-avatar").offset().top }, 500);
 		if( !$('#message').length )
 			$('#item-header').append('<div id="message" class="updated"><p>'+ message +'</p>');
+		else {
+			$('#item-header #message').removeClass('error');
+			$('#item-header #message').addClass('updated');
+			$('#item-header #message p').html( message );
+		}
+		
+		// we also need to change the actionbtn !
+		$('#chosen_avatar').html( avatar_list_vars.btn_deactivate );
+		$('#chosen_avatar').attr('id', 'delete_avatar');
+		
 	}
 	
 	$('#delete_avatar').live('click', function(){
