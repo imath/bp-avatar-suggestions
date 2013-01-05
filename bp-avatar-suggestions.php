@@ -1,14 +1,14 @@
 <?php
 /*
 Plugin Name: BP Avatar Suggestions
-Plugin URI: http://imath.owni.fr/
+Plugin URI: http://bp-fr.net/2012/11/buddypress-avatar-suggestions/
 Description: Adds an avatar suggestions list to your BuddyPress powered community
 Version: 1.0-beta1
 Requires at least: 3.4.2
 Tested up to: 3.5
 License: GNU/GPL 2
 Author: imath
-Author URI: http://imath.owni.fr/
+Author URI: http://imathi.eu/
 Network: true
 */
 

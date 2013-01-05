@@ -1,23 +1,74 @@
-# Copyright (C) 2012 BP Avatar Suggestions
+# Copyright (C) 2013 BP Avatar Suggestions
 # This file is distributed under the same license as the BP Avatar Suggestions package.
 msgid ""
 msgstr ""
-"Project-Id-Version: BP Avatar Suggestions 1.0\n"
-"Report-Msgid-Bugs-To: http://wordpress.org/tag/bp-checkins\n"
-"POT-Creation-Date: 2012-08-07 14:50:39+00:00\n"
+"Project-Id-Version: BP Avatar Suggestions 1.0-beta1\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/bp-avatar-suggestions\n"
+"POT-Creation-Date: 2013-01-05 17:22:55+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2012-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2013-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: includes/bp-avatar-suggestions-front.php:44
-msgid "Bravo, i also like this one!"
+#: includes/bp-avatar-suggestions-admin.php:14
+#: includes/bp-avatar-suggestions-admin.php:50
+#: includes/bp-avatar-suggestions-admin.php:162
+msgid "Avatar Suggestions"
 msgstr ""
 
-#: includes/bp-avatar-suggestions-front.php:45 includes/bp-avatar-suggestions-admin.php:265
+#: includes/bp-avatar-suggestions-admin.php:25
+msgid "Allow registered members to choose a suggested avatar"
+msgstr ""
+
+#: includes/bp-avatar-suggestions-admin.php:66
+#: includes/bp-avatar-suggestions-admin.php:67
+msgid "BuddyPress Settings"
+msgstr ""
+
+#: includes/bp-avatar-suggestions-admin.php:133
+msgid "Settings updated !"
+msgstr ""
+
+#: includes/bp-avatar-suggestions-admin.php:175
+#: includes/bp-avatar-suggestions-admin.php:181
+msgid "Avatars"
+msgstr ""
+
+#: includes/bp-avatar-suggestions-admin.php:176
+#: includes/bp-avatar-suggestions-admin.php:182
+msgid "Actions"
+msgstr ""
+
+#: includes/bp-avatar-suggestions-admin.php:195
+msgid "Delete this avatar"
+msgstr ""
+
+#: includes/bp-avatar-suggestions-admin.php:212
+#: includes/bp-avatar-suggestions-admin.php:217
+msgid "New Avatar"
+msgstr ""
+
+#: includes/bp-avatar-suggestions-admin.php:224
+msgid "Add an avatar"
+msgstr ""
+
+#: includes/bp-avatar-suggestions-admin.php:231
+msgid "To add an avatar, click on the &#39;Add an avatar&#39; button then in the thickbox window, upload your avatar. Once done, click on the insert into post button of the thickbox. The avatar will show at the left of the &#39;Add an avatar&#39; button. Finally, use the &#39;Save Settings&#39; button to update the avatar suggestions list."
+msgstr ""
+
+#: includes/bp-avatar-suggestions-admin.php:237
+msgid "Save Settings"
+msgstr ""
+
+#: includes/bp-avatar-suggestions-admin.php:265
+#: includes/bp-avatar-suggestions-front.php:45
 msgid "OOps something went wrong."
+msgstr ""
+
+#: includes/bp-avatar-suggestions-front.php:44
+msgid "Bravo, i also like this one!"
 msgstr ""
 
 #: includes/bp-avatar-suggestions-front.php:46
@@ -39,43 +90,22 @@ msgstr ""
 #: includes/bp-avatar-suggestions-front.php:50
 msgid "Deactivate"
 msgstr ""
-
-#: includes/bp-avatar-suggestions-admin.php:14 includes/bp-avatar-suggestions-admin.php:14 includes/bp-avatar-suggestions-admin.php:50 includes/bp-avatar-suggestions-admin.php:162
-msgid "Avatar Suggestions"
+#. Plugin Name of the plugin/theme
+msgid "BP Avatar Suggestions"
 msgstr ""
 
-#: includes/bp-avatar-suggestions-admin.php:25
-msgid "Allow registered members to choose a suggested avatar"
+#. Plugin URI of the plugin/theme
+msgid "http://bp-fr.net/2012/11/buddypress-avatar-suggestions/"
 msgstr ""
 
-#: includes/bp-avatar-suggestions-admin.php:133
-msgid "Settings updated !"
+#. Description of the plugin/theme
+msgid "Adds an avatar suggestions list to your BuddyPress powered community"
 msgstr ""
 
-#: includes/bp-avatar-suggestions-admin.php:175 includes/bp-avatar-suggestions-admin.php:181
-msgid "Avatars"
+#. Author of the plugin/theme
+msgid "imath"
 msgstr ""
 
-#: includes/bp-avatar-suggestions-admin.php:176 includes/bp-avatar-suggestions-admin.php:182
-msgid "Actions"
-msgstr ""
-
-#: includes/bp-avatar-suggestions-admin.php:195
-msgid "Delete this avatar"
-msgstr ""
-
-#: includes/bp-avatar-suggestions-admin.php:212 includes/bp-avatar-suggestions-admin.php:217
-msgid "New Avatar"
-msgstr ""
-
-#: includes/bp-avatar-suggestions-admin.php:224
-msgid "Add an avatar"
-msgstr ""
-
-#: includes/bp-avatar-suggestions-admin.php:231
-msgid "To add an avatar, click on the &#39;Add an avatar&#39; button then in the thickbox window, upload your avatar. Once done, click on the insert into post button of the thickbox. The avatar will show at the left of the &#39;Add an avatar&#39; button. Finally, use the &#39;Save Settings&#39; button to update the avatar suggestions list."
-msgstr ""
-
-#: includes/bp-avatar-suggestions-admin.php:237
-msgid "Save Settings"
+#. Author URI of the plugin/theme
+msgid "http://imathi.eu/"
 msgstr ""
