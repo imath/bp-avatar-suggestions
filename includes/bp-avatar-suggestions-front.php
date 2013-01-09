@@ -32,6 +32,9 @@ function bp_as_front_load_js(){
 			}
 			
 		}
+
+		// now you can filter the avatar list ;)
+		$avatar_list = apply_filters( 'bp_as_filter_avatar_list', $avatar_list );
 		
 		if( $avatar_list ) {
 			

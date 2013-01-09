@@ -3,7 +3,7 @@
 Plugin Name: BP Avatar Suggestions
 Plugin URI: http://bp-fr.net/2012/11/buddypress-avatar-suggestions/
 Description: Adds an avatar suggestions list to your BuddyPress powered community
-Version: 1.1-beta1
+Version: 1.1-beta2
 Requires at least: 3.4.2
 Tested up to: 3.5
 License: GNU/GPL 2
@@ -15,7 +15,7 @@ Network: true
 define ( 'BP_AS_PLUGIN_NAME', 'bp-avatar-suggestions' );
 define ( 'BP_AS_PLUGIN_URL_JS',  plugins_url('js' , __FILE__) );
 define ( 'BP_AS_PLUGIN_DIR',  WP_PLUGIN_DIR . '/' . BP_AS_PLUGIN_NAME );
-define ( 'BP_AS_PLUGIN_VERSION', '1.1-beta1');
+define ( 'BP_AS_PLUGIN_VERSION', '1.1-beta2');
 
 add_action('bp_include', 'bp_avatar_suggestion_init');
 
