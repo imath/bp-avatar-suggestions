@@ -173,8 +173,8 @@ class Avatar_Suggestions_Admin {
 
 		$hook_as = add_submenu_page(
 			$page,
-			__( 'BuddyPress Settings', 'buddypress' ),
-			__( 'BuddyPress Settings', 'buddypress' ),
+			__( 'Avatar Suggestions Settings', 'bp-avatar-suggestions' ),
+			__( 'Avatar Suggestions Settings', 'bp-avatar-suggestions' ),
 			'manage_options',
 			'bp-avatar-suggestions',
 			array( $this, 'admin_display' )
@@ -257,7 +257,7 @@ class Avatar_Suggestions_Admin {
 		<div class="wrap">
 			<?php screen_icon( 'buddypress'); ?>
 			
-			<h2 class="nav-tab-wrapper"><?php bp_core_admin_tabs( __( 'Avatar Suggestions', 'buddypress' ) ); ?></h2>
+			<h2 class="nav-tab-wrapper"><?php bp_core_admin_tabs( __( 'Avatar Suggestions', 'bp-avatar-suggestions' ) ); ?></h2>
 			
 			<form action="<?php echo esc_url( $form_url ) ;?>" method="post" id="bp-admin-avatar-choose-form">
 				

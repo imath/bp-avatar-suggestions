@@ -4,60 +4,74 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BP Avatar Suggestions 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/bp-avatar-suggestions\n"
-"POT-Creation-Date: 2013-01-09 21:18:42+00:00\n"
-"PO-Revision-Date: 2013-01-09 22:19+0100\n"
+"POT-Creation-Date: 2014-04-28 16:37:57+00:00\n"
+"PO-Revision-Date: 2014-04-28 18:43+0100\n"
 "Last-Translator: imath <mathchristo@yahoo.fr>\n"
 "Language-Team: \n"
+"Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.6.4\n"
 
-#: includes/bp-avatar-suggestions-admin.php:14
-#: includes/bp-avatar-suggestions-admin.php:50
-#: includes/bp-avatar-suggestions-admin.php:162
+#: bp-avatar-suggestions.php:172
+msgid "%1$s requires at least version %2$s of BuddyPress."
+msgstr "%1$s requiert à minima la version %2$s de BuddyPress"
+
+#: bp-avatar-suggestions.php:182
+msgid "%s and BuddyPress need to share the same network configuration."
+msgstr "%s a besoin de partager la même configuration réseau que BuddyPress."
+
+#: bp-avatar-suggestions.php:186
+msgid "%s requires the BuddyPress extended profile component"
+msgstr "%s requiert le composant Profils étendus de BuddyPress "
+
+#: includes/bp-avatar-suggestions-admin.php:98
+#: includes/bp-avatar-suggestions-admin.php:260
+#: includes/bp-avatar-suggestions-admin.php:380
 msgid "Avatar Suggestions"
 msgstr "Suggestions d&#39;Avatars"
 
-#: includes/bp-avatar-suggestions-admin.php:25
+#: includes/bp-avatar-suggestions-admin.php:138
 msgid "Allow registered members to choose a suggested avatar"
 msgstr ""
 "Autoriser les membres enregistrés à choisir parmi les suggestions d&#39;"
 "avatar"
 
-#: includes/bp-avatar-suggestions-admin.php:66
-#: includes/bp-avatar-suggestions-admin.php:67
-msgid "BuddyPress Settings"
-msgstr "Réglages BuddyPress"
+#: includes/bp-avatar-suggestions-admin.php:159
+#: includes/bp-avatar-suggestions-front.php:120
+msgid "OOps something went wrong."
+msgstr "Oops une erreur est survenue"
 
-#: includes/bp-avatar-suggestions-admin.php:133
-msgid "Settings updated !"
-msgstr "Réglages enregistrés !"
+#: includes/bp-avatar-suggestions-admin.php:176
+#: includes/bp-avatar-suggestions-admin.php:177
+msgid "Avatar Suggestions Settings"
+msgstr "Réglages Suggestions Avatar"
 
-#: includes/bp-avatar-suggestions-admin.php:175
-#: includes/bp-avatar-suggestions-admin.php:181
+#: includes/bp-avatar-suggestions-admin.php:273
+#: includes/bp-avatar-suggestions-admin.php:279
 msgid "Avatars"
 msgstr "Avatars"
 
-#: includes/bp-avatar-suggestions-admin.php:176
-#: includes/bp-avatar-suggestions-admin.php:182
+#: includes/bp-avatar-suggestions-admin.php:274
+#: includes/bp-avatar-suggestions-admin.php:280
 msgid "Actions"
 msgstr "Actions"
 
-#: includes/bp-avatar-suggestions-admin.php:195
+#: includes/bp-avatar-suggestions-admin.php:293
 msgid "Delete this avatar"
 msgstr "Supprimer cet avatar"
 
-#: includes/bp-avatar-suggestions-admin.php:212
-#: includes/bp-avatar-suggestions-admin.php:217
+#: includes/bp-avatar-suggestions-admin.php:310
+#: includes/bp-avatar-suggestions-admin.php:315
 msgid "New Avatar"
 msgstr "Nouvel Avatar"
 
-#: includes/bp-avatar-suggestions-admin.php:224
+#: includes/bp-avatar-suggestions-admin.php:322
 msgid "Add an avatar"
 msgstr "Ajouter un avatar"
 
-#: includes/bp-avatar-suggestions-admin.php:231
+#: includes/bp-avatar-suggestions-admin.php:329
 msgid ""
 "To add an avatar, click on the &#39;Add an avatar&#39; button then in the "
 "thickbox window, upload your avatar. Once done, click on the insert into "
@@ -73,46 +87,53 @@ msgstr ""
 "il ne vous restera plus qu&#39;à cliquer sur le bouton &#39;Enregistrer "
 "Réglages&#39; pour actualiser la liste des suggestions d&#39;avatar."
 
-#: includes/bp-avatar-suggestions-admin.php:237
+#: includes/bp-avatar-suggestions-admin.php:335
 msgid "Save Settings"
 msgstr "Enregistrer Réglages"
 
-#: includes/bp-avatar-suggestions-admin.php:265
-#: includes/bp-avatar-suggestions-front.php:48
-msgid "OOps something went wrong."
-msgstr "Oops une erreur est survenue"
-
-#: includes/bp-avatar-suggestions-front.php:47
+#: includes/bp-avatar-suggestions-front.php:119
 msgid "Bravo, i also like this one!"
 msgstr "Bravo, il est sympa celui là !"
 
-#: includes/bp-avatar-suggestions-front.php:49
+#: includes/bp-avatar-suggestions-front.php:121
 msgid "Avatar deleted."
 msgstr "Avatar supprimé"
 
-#: includes/bp-avatar-suggestions-front.php:50
+#: includes/bp-avatar-suggestions-front.php:122
 msgid "Please select an avatar"
 msgstr "Merci de choisir un avatar"
 
-#: includes/bp-avatar-suggestions-front.php:51
+#: includes/bp-avatar-suggestions-front.php:123
 msgid "Or choose one of the suggested avatars below:"
 msgstr "Ou choisissez en un dans la liste ci-dessous :"
 
-#: includes/bp-avatar-suggestions-front.php:52
-msgid "Activate"
-msgstr "Activer"
+#: includes/bp-avatar-suggestions-front.php:124
+msgid "Activate selected"
+msgstr "Activer la sélection"
 
-#: includes/bp-avatar-suggestions-front.php:53
-msgid "Deactivate"
-msgstr "Désactiver"
+#: includes/bp-avatar-suggestions-front.php:125
+msgid "Deactivate selected"
+msgstr "désactiver la sélection"
+
+#: includes/bp-avatar-suggestions-front.php:127
+msgid "The selected avatar is already set as your avatar"
+msgstr "Cet avatar est déjà activé"
+
+#: includes/bp-avatar-suggestions-front.php:128
+msgid "Deactivate is only applying for the active avatar"
+msgstr "La désactivation concerne l&#39;avatar actif uniquement"
+
+#: includes/bp-avatar-suggestions-front.php:129
+msgid "We were not able to achieve this action"
+msgstr "Impossible de réaliser cette action."
 
 #. Plugin Name of the plugin/theme
 msgid "BP Avatar Suggestions"
 msgstr "BP Avatar Suggestions"
 
 #. Plugin URI of the plugin/theme
-msgid "http://bp-fr.net/2012/11/buddypress-avatar-suggestions/"
-msgstr "http://bp-fr.net/2012/11/buddypress-avatar-suggestions/"
+msgid "http://imathi.eu/tag/bp-avatar-suggestions/"
+msgstr "http://imathi.eu/tag/bp-avatar-suggestions/"
 
 #. Description of the plugin/theme
 msgid "Adds an avatar suggestions list to your BuddyPress powered community"
@@ -125,3 +146,9 @@ msgstr "imath"
 #. Author URI of the plugin/theme
 msgid "http://imathi.eu/"
 msgstr "http://imathi.eu/"
+
+#~ msgid "BuddyPress Settings"
+#~ msgstr "Réglages BuddyPress"
+
+#~ msgid "Settings updated !"
+#~ msgstr "Réglages enregistrés !"

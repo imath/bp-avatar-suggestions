@@ -70,8 +70,9 @@ class Avatar_Suggestions_Front {
 		// Reset suggestion
 		add_action( 'xprofile_screen_change_avatar',       array( $this, 'reset_suggestion'  )       );
 
-		// filter avater
-		add_filter( 'bp_core_fetch_avatar',                array( $this, 'suggestion_avatar' ), 1, 9 );
+		// filter avatar
+		add_filter( 'bp_core_fetch_avatar',                array( $this, 'suggestion_avatar' ), 1, 2 );
+		add_filter( 'bp_core_fetch_avatar_url',            array( $this, 'suggestion_avatar' ), 1, 2 );
 	}
 
 	/**
@@ -194,10 +195,12 @@ class Avatar_Suggestions_Front {
 	 * @subpackage Front
 	 * @since   1.1.0
 	 */
-	function suggestion_avatar( $image, $params, $item_id, $avatar_dir, $css_id, $html_width, $html_height, $avatar_folder_url, $avatar_folder_dir ) {
-		if ( $params['object'] != "user" || false == $params['html'] ) 
+	function suggestion_avatar( $image = '', $params = array() ) {
+		if ( 'user' != $params['object'] || ! empty( $params['no_grav'] ) || empty( $params['item_id'] ) ) 
 			return $image;
-	
+
+		$item_id = absint( $params['item_id'] );
+		
 		if ( ! bp_get_user_has_avatar( $item_id ) ) {
 			
 			$user_choice = get_user_meta( $item_id, 'user_avatar_choice', true );
@@ -205,11 +208,16 @@ class Avatar_Suggestions_Front {
 			if( empty( $user_choice ) )
 				return $image;
 			
-			$image = preg_replace('/src="([^"]*)"/i', 'src="' .$user_choice.'"', $image );
+			if ( ! empty( $params['html'] ) ){
+				$image = preg_replace('/src="([^"]*)"/i', 'src="' . $user_choice . '"', $image );
+			} else {
+				$image = $user_choice;
+			}
+				
 		}
 		
 		/* in case you need to filter with your own function... */
-		return apply_filters( 'bp_as_fetch_suggested_avatar', $image, $params, $item_id, $css_id, $html_width, $html_height, $avatar_folder_url, $avatar_folder_dir );
+		return apply_filters( 'bp_as_fetch_suggested_avatar', $image, $params );
 	}
 }
 
