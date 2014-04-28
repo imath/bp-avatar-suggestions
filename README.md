@@ -10,6 +10,5 @@ Available in french and english.
 Configuration needed
 --------------------
 
-+ WordPress 3.4.2 and BuddyPress 1.6.1
-+ Working in WordPress 3.5 RC 1 and BuddyPress 1.7 Bleeding
++ WordPress 3.9 and BuddyPress 2.0
 

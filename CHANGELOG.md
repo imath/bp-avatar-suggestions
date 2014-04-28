@@ -1,6 +1,11 @@
 Versions
 ========
 
+1.1
+---
+
++ requires BuddyPress 2.0
+
 
 1.1-beta2
 ---------
