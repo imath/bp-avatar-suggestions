@@ -3,7 +3,7 @@
 Plugin Name: BP Avatar Suggestions
 Plugin URI: http://imathi.eu/tag/bp-avatar-suggestions/
 Description: Adds an avatar suggestions list to your BuddyPress powered community
-Version: 1.1.0
+Version: 1.1.1
 Requires at least: 3.9
 Tested up to: 3.9
 License: GNU/GPL 2
@@ -55,11 +55,11 @@ class Avatar_Suggestions {
 	 *
 	 * @var      string
 	 */
-	public static $plugin_name = 'BP Avatar Suggestions'; 
+	public static $plugin_name = 'BP Avatar Suggestions';
 
 	/**
 	 * Initialize the plugin
-	 * 
+	 *
 	 * @package BP Avatar Suggestions
 	 * @since   1.1.0
 	 */
@@ -92,14 +92,14 @@ class Avatar_Suggestions {
 
 	/**
 	 * Sets some globals for the plugin
-	 * 
+	 *
 	 * @package BP Avatar Suggestions
 	 * @since   1.1.0
 	 */
 	private function setup_globals() {
 
 		/** Versions & domain ***********************************/
-		$this->version       = '1.1.0';
+		$this->version       = '1.1.1';
 		$this->domain        = 'bp-avatar-suggestions';
 
 		/** Paths ***********************************************/
@@ -134,7 +134,7 @@ class Avatar_Suggestions {
 
 	/**
 	 * Sets the key hooks to add an action or a filter to
-	 * 
+	 *
 	 * @package BP Avatar Suggestions
 	 * @since   1.1.0
 	 */
@@ -156,12 +156,12 @@ class Avatar_Suggestions {
 			// Display a warning message in network admin or admin
 			add_action( self::$bp_config['network_active'] ? 'network_admin_notices' : 'admin_notices', array( $this, 'warning' ) );
 		}
-		
+
 	}
 
 	/**
 	 * Display a warning message to admin
-	 * 
+	 *
 	 * @package BP Avatar Suggestions
 	 * @since   1.1.0
 	 */
@@ -201,7 +201,7 @@ class Avatar_Suggestions {
 
 	/**
 	 * Checks BuddyPress version
-	 * 
+	 *
 	 * @package BP Avatar Suggestions
 	 * @since   1.1.0
 	 */
@@ -215,7 +215,7 @@ class Avatar_Suggestions {
 
 	/**
 	 * Checks if your plugin's config is similar to BuddyPress
-	 * 
+	 *
 	 * @package BP Avatar Suggestions
 	 * @since   1.1.0
 	 */
@@ -226,15 +226,15 @@ class Avatar_Suggestions {
 		 * network_status : BuddyPress & your plugin share the same network status
 		 */
 		self::$bp_config = array(
-			'blog_status'    => false, 
-			'network_active' => false, 
-			'network_status' => true 
+			'blog_status'    => false,
+			'network_active' => false,
+			'network_status' => true
 		);
 
 		if ( get_current_blog_id() == bp_get_root_blog_id() ) {
 			self::$bp_config['blog_status'] = true;
 		}
-		
+
 		$network_plugins = get_site_option( 'active_sitewide_plugins', array() );
 
 		// No Network plugins
@@ -248,7 +248,7 @@ class Avatar_Suggestions {
 
 		// Are they active on the network ?
 		$network_active = array_diff( $check, array_keys( $network_plugins ) );
-		
+
 		// If result is 1, your plugin is network activated
 		// and not BuddyPress or vice & versa. Config is not ok
 		if ( count( $network_active ) == 1 )
@@ -270,8 +270,9 @@ class Avatar_Suggestions {
 
 		$config = self::config_check();
 
-		if ( ! self::version_check() || ! $config['blog_status'] || ! $config['network_status'] )
+		if ( ! self::version_check() || ( ! $config['blog_status'] && ! $config['network_status'] ) ) {
 			$retval = true;
+		}
 
 		return $retval;
 	}
@@ -281,7 +282,7 @@ class Avatar_Suggestions {
 	 *
 	 * @package BP Avatar Suggestions
 	 * @since   1.1.0
-	 * 
+	 *
 	 * @uses get_locale() to get the language of WordPress config
 	 * @uses load_texdomain() to load the translation if any is available for the language
 	 */
@@ -300,7 +301,7 @@ class Avatar_Suggestions {
 		// Look in local /wp-content/plugins/bp-avatar-suggestions/languages/ folder
 		load_textdomain( $this->domain, $mofile_local );
 	}
-	
+
 }
 
 // BuddyPress is loaded and initialized, let's start !
@@ -310,7 +311,7 @@ function bp_avatar_suggestions() {
 	if ( empty( $bp->extend ) ) {
 		$bp->extend = new StdClass();
 	}
-	
+
 	$bp->extend->avatar_suggestions = Avatar_Suggestions::start();
 }
 add_action( 'bp_include', 'bp_avatar_suggestions' );
