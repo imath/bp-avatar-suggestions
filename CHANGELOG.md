@@ -1,6 +1,15 @@
 Versions
 ========
 
+1.2
+---
+
++ requires WordPress 4.1
++ requires BuddyPress 2.2
++ Use a draft post to attach the avatar to
++ Improve the 'old' interface so that it is now possible to bulk upload avatar suggestions.
+
+
 1.1
 ---
 
@@ -10,7 +19,7 @@ Versions
 1.1-beta2
 ---------
 
-+ adds a filter to the avatar lists just before displaying it to the user 
++ adds a filter to the avatar lists just before displaying it to the user
 + example of use : `add_filter( 'bp_as_filter_avatar_list', 'filter_list_by_xprofile_gender', 10, 1 );`
 
 

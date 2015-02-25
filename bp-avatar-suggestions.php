@@ -3,7 +3,7 @@
 Plugin Name: BP Avatar Suggestions
 Plugin URI: http://imathi.eu/tag/bp-avatar-suggestions/
 Description: Adds an avatar suggestions list to your BuddyPress powered community
-Version: 1.1.1
+Version: 1.2-alpha
 Requires at least: 3.9
 Tested up to: 3.9
 License: GNU/GPL 2
@@ -35,7 +35,7 @@ class Avatar_Suggestions {
 	 *
 	 * @var      string
 	 */
-	public static $required_bp_version = '2.0';
+	public static $required_bp_version = '2.2';
 
 	/**
 	 * BuddyPress config.
@@ -99,7 +99,7 @@ class Avatar_Suggestions {
 	private function setup_globals() {
 
 		/** Versions & domain ***********************************/
-		$this->version       = '1.1.1';
+		$this->version       = '1.2-alpha';
 		$this->domain        = 'bp-avatar-suggestions';
 
 		/** Paths ***********************************************/
@@ -113,7 +113,7 @@ class Avatar_Suggestions {
 		$this->plugin_url    = plugin_dir_url( $this->file );
 		$this->plugin_js     = trailingslashit( $this->plugin_url . 'js' );
 
-		$this->is_active     = (int) bp_get_option( 'bp-disable-avatar-suggestions', 0 );
+		$this->avatar_post_id = bp_get_option( 'bp_avatar_suggestions_post_id', 0 );
 	}
 
 	/**
@@ -123,13 +123,17 @@ class Avatar_Suggestions {
 	 * @since   1.1.0
 	 */
 	private function includes() {
-		if ( self::bail() || ! bp_is_active( 'xprofile' ) )
+		if ( self::bail() || ! bp_is_active( 'xprofile' ) ) {
 			return;
+		}
 
-		require( $this->includes_dir . 'bp-avatar-suggestions-front.php' );
+		if ( ! empty( $this->avatar_post_id ) ) {
+			require( $this->includes_dir . 'bp-avatar-suggestions-front.php' );
+		}
 
-		if( is_admin() )
+		if ( is_admin() ) {
 			require( $this->includes_dir . 'bp-avatar-suggestions-admin.php' );
+		}
 	}
 
 	/**
@@ -142,12 +146,15 @@ class Avatar_Suggestions {
 
 		if ( ! self::bail() && bp_is_active( 'xprofile' ) ) {
 			// Load Front
-			if ( ! empty( $this->is_active ) )
-				add_action( 'bp_loaded', 'bp_avatar_suggestions_front', 20 );
+			add_action( 'bp_loaded', 'bp_avatar_suggestions_front', 20 );
+
+			// Make sure to intercept a deleted avatar
+			add_action( 'delete_attachment', array( $this, 'cleanup_avatar_data' ), 10, 1 );
 
 			// Load Admin
-			if( is_admin() )
+			if ( is_admin() ) {
 				add_action( 'bp_loaded', 'bp_avatar_suggestions_admin', 20 );
+			}
 
 			// loads the languages..
 			add_action( 'bp_init', array( $this, 'load_textdomain' ), 5 );
@@ -156,7 +163,32 @@ class Avatar_Suggestions {
 			// Display a warning message in network admin or admin
 			add_action( self::$bp_config['network_active'] ? 'network_admin_notices' : 'admin_notices', array( $this, 'warning' ) );
 		}
+	}
 
+	/**
+	 * Remove all avatar datas related to an attachment
+	 *
+	 * @package BP Avatar Suggestions
+	 * @since   1.2.0
+	 */
+	public function cleanup_avatar_data( $attachment_id = 0 ) {
+		// All avatar suggestions are saved in the root blog
+		if ( ! bp_is_root_blog() ) {
+			return;
+		}
+
+		$attachement = get_post( $attachment_id );
+
+		// Make sure it's an avatar suggestion
+		if ( empty( $attachement->post_parent ) || $this->avatar_post_id != $attachement->post_parent ) {
+			return;
+		}
+
+		// Get the url of the avatar
+		$avatar_url = wp_get_attachment_image_src( $attachment_id, array( 150, 150 ) );
+
+		// Delete all user metas having the $avatar_url
+		delete_metadata( 'user', false, 'user_avatar_choice', $avatar_url[0], true );
 	}
 
 	/**

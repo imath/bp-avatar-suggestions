@@ -50,7 +50,7 @@ class Avatar_Suggestions_Front {
 	 * @since   1.1.0
 	 */
 	private function setup_globals() {
-		$this->attachment_ids = bp_get_option( 'suggestion_list_avatar_array', array() );
+		$this->avatar_post_id = buddypress()->extend->avatar_suggestions->avatar_post_id;
 	}
 
 	/**
@@ -89,17 +89,19 @@ class Avatar_Suggestions_Front {
 
 		$suggested_avatars = $avatar_list = array();
 
-		if ( ! empty( $this->attachment_ids ) ) {
+		if ( ! empty( $this->avatar_post_id ) ) {
 			// get the suggested avatars
 			$suggested_avatars = get_posts( array(
-				'post_type' => 'attachment',
-				'include' => $this->attachment_ids
+				'post_type'   => 'attachment',
+				'post_parent' => $this->avatar_post_id,
+				'numberposts' => -1,
 			) );
 		}
-			
-		// Bail if no suggested avatars	
-		if ( empty( $suggested_avatars ) )
+
+		// Bail if no suggested avatars
+		if ( empty( $suggested_avatars ) ) {
 			return false;
+		}
 
 		foreach ( $suggested_avatars as $attachment ) {
 			$avatar = wp_get_attachment_image_src( $attachment->ID, array( 150, 150 ) );
@@ -108,11 +110,12 @@ class Avatar_Suggestions_Front {
 
 		// Let others add avatars
 		$avatar_list = apply_filters( 'bp_as_filter_avatar_list', $avatar_list );
-		
+
 		// No avatar or user has one
-		if ( empty( $avatar_list ) || bp_get_user_has_avatar( bp_displayed_user_id() ) )
+		if ( empty( $avatar_list ) || bp_get_user_has_avatar( bp_displayed_user_id() ) ) {
 			return false;
-			
+		}
+
 		$avatar_list_array = array(
 			'json_avatar'      => json_encode( $avatar_list ),
 			'displayeduser_id' => bp_displayed_user_id(),
@@ -128,16 +131,17 @@ class Avatar_Suggestions_Front {
 			'nodeactivate'     => __( 'Deactivate is only applying for the active avatar', 'bp-avatar-suggestions' ),
 			'unknownaction'    => __( 'We were not able to achieve this action', 'bp-avatar-suggestions' ),
 		);
-		
+
 		// Do current user has already chosen a suggestion ?
 		$user_choice = get_user_meta( bp_displayed_user_id(), 'user_avatar_choice', true );
-			
-		if ( ! empty( $user_choice ) )
-			$avatar_list_array['user_avatar_choice'] = $user_choice ;
+
+		if ( ! empty( $user_choice ) ) {
+			$avatar_list_array['user_avatar_choice'] = $user_choice;
+		}
 
 		// Finally enqueue script
-		wp_enqueue_script( 'bp-as-front-js', buddypress()->extend->avatar_suggestions->plugin_js .'bp-as-front.js', array( 'jquery' ), buddypress()->extend->avatar_suggestions->version, true );
-		wp_localize_script('bp-as-front-js', 'avatar_list_vars', $avatar_list_array );
+		wp_enqueue_script ( 'bp-as-front-js', buddypress()->extend->avatar_suggestions->plugin_js . 'bp-as-front.js', array( 'jquery' ), buddypress()->extend->avatar_suggestions->version, true );
+		wp_localize_script( 'bp-as-front-js', 'avatar_list_vars', $avatar_list_array );
 	}
 
 	/**
@@ -149,19 +153,20 @@ class Avatar_Suggestions_Front {
 	 */
 	public function set_suggestion() {
 
-		if ( empty( $_POST['user_id'] ) || empty( $_POST['url'] ) )
+		if ( empty( $_POST['user_id'] ) || empty( $_POST['url'] ) ) {
 			wp_die( -1 );
+		}
 
 		$user_id = absint( $_POST['user_id'] );
 		$avatar = esc_url( $_POST['url'] );
 
 		check_ajax_referer( 'set_avatar_suggestion-'. $user_id, 'nonce' );
-	
+
 		if ( bp_update_user_meta( $user_id, 'user_avatar_choice', $avatar ) ) {
-			
+
 			do_action( 'xprofile_avatar_uploaded' );
 			wp_die( 1 );
-			
+
 		} else {
 			wp_die( -1 );
 		}
@@ -177,14 +182,15 @@ class Avatar_Suggestions_Front {
 	public function reset_suggestion() {
 
 		if ( ! empty( $_POST['avatar_choice'] ) ) {
-		
+
 			delete_user_meta( bp_displayed_user_id(), 'user_avatar_choice' );
-			
+
 			do_action( 'bp_core_delete_existing_avatar');
-			
+
 			// avoid when avatar upload.
-			if ( empty( $_FILES["file"]["name"] ) )
+			if ( empty( $_FILES["file"]["name"] ) ) {
 				bp_core_redirect( wp_get_referer() . "?del-avatar");
+			}
 		}
 	}
 
@@ -196,26 +202,28 @@ class Avatar_Suggestions_Front {
 	 * @since   1.1.0
 	 */
 	function suggestion_avatar( $image = '', $params = array() ) {
-		if ( 'user' != $params['object'] || ! empty( $params['no_grav'] ) || empty( $params['item_id'] ) ) 
+		if ( 'user' != $params['object'] || ! empty( $params['no_grav'] ) || empty( $params['item_id'] ) ) {
 			return $image;
+		}
 
 		$item_id = absint( $params['item_id'] );
-		
+
 		if ( ! bp_get_user_has_avatar( $item_id ) ) {
-			
+
 			$user_choice = get_user_meta( $item_id, 'user_avatar_choice', true );
 
-			if( empty( $user_choice ) )
+			if ( empty( $user_choice ) ) {
 				return $image;
-			
+			}
+
 			if ( ! empty( $params['html'] ) ){
 				$image = preg_replace('/src="([^"]*)"/i', 'src="' . $user_choice . '"', $image );
 			} else {
 				$image = $user_choice;
 			}
-				
+
 		}
-		
+
 		/* in case you need to filter with your own function... */
 		return apply_filters( 'bp_as_fetch_suggested_avatar', $image, $params );
 	}
