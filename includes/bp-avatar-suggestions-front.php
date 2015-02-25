@@ -51,6 +51,8 @@ class Avatar_Suggestions_Front {
 	 */
 	private function setup_globals() {
 		$this->avatar_post_id = buddypress()->extend->avatar_suggestions->avatar_post_id;
+		$this->enable_users   = bp_get_option( 'bp-avatar-suggestions-enable-users', 1 );
+		$this->enable_groups  = bp_get_option( 'bp-avatar-suggestions-enable-groups', 1 );
 	}
 
 	/**
@@ -84,17 +86,32 @@ class Avatar_Suggestions_Front {
 	 */
 	public function enqueue_script() {
 		// Bail if we're not on the change-avatar page
-		if ( ! bp_is_user_change_avatar() )
+		if ( ! bp_is_user_change_avatar() || ! $this->enable_users ) {
 			return false;
+		}
 
 		$suggested_avatars = $avatar_list = array();
 
 		if ( ! empty( $this->avatar_post_id ) ) {
+			/**
+			 * Allowed types are
+			 * - all -> 1
+			 * - users -> 2
+			 */
+			$meta_query = array(
+				array(
+					'key'     => '_bpas_avatar_type',
+					'compare' => 'IN',
+					'value'  => array( 1, 2 ),
+				)
+			);
+
 			// get the suggested avatars
 			$suggested_avatars = get_posts( array(
 				'post_type'   => 'attachment',
 				'post_parent' => $this->avatar_post_id,
 				'numberposts' => -1,
+				'meta_query'  => $meta_query,
 			) );
 		}
 
@@ -202,7 +219,7 @@ class Avatar_Suggestions_Front {
 	 * @since   1.1.0
 	 */
 	function suggestion_avatar( $image = '', $params = array() ) {
-		if ( 'user' != $params['object'] || ! empty( $params['no_grav'] ) || empty( $params['item_id'] ) ) {
+		if ( ! $this->enable_users || 'user' != $params['object'] || ! empty( $params['no_grav'] ) || empty( $params['item_id'] ) ) {
 			return $image;
 		}
 

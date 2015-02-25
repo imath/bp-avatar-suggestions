@@ -51,7 +51,8 @@ class Avatar_Suggestions_Admin {
 	 */
 	private function setup_globals() {
 		$this->avatar_post_id = buddypress()->extend->avatar_suggestions->avatar_post_id;
-		$this->use_old_ui     = bp_get_option( 'bp-avatar-suggestions-disable-backbone-ui', 0 );
+		$this->enable_users   = bp_get_option( 'bp-avatar-suggestions-enable-users', 1 );
+		$this->enable_groups  = bp_get_option( 'bp-avatar-suggestions-enable-groups', 1 );
 	}
 
 	/**
@@ -81,7 +82,22 @@ class Avatar_Suggestions_Admin {
 
 		add_action( 'bp_admin_tabs',                     array( $this, 'admin_tab'          )         );
 
-		add_action( 'wp_ajax_bp_as_admin_avatar_delete', array( $this, 'suggestion_delete'  )         );
+		add_filter( 'set-screen-option',                 array( $this, 'screen_options'     ),  10, 3 );
+	}
+
+	/**
+	 * Bail if avatars are not enabled
+	 *
+	 * @package BP Avatar Suggestions
+	 * @subpackage Admin
+	 * @since   1.2.0
+	 *
+	 * @return bool whether avatars are enabled or not
+	 */
+	public function bail() {
+		$bp = buddypress();
+
+		return empty( $bp->avatar->show_avatars );
 	}
 
 	/**
@@ -92,20 +108,32 @@ class Avatar_Suggestions_Admin {
 	 * @since   1.1.0
 	 */
 	public function settings() {
-		// Allow avatar uploads
-		add_settings_field(
-			'bp-avatar-suggestions-disable-backbone-ui',
-			__( 'Avatar Suggestions', 'bp-avatar-suggestions' ),
-			array( $this, 'settings_callback' ),
-			'buddypress',
-			'bp_xprofile'
+		if ( $this->bail() ) {
+			return;
+		}
+
+		$components = array(
+			'users'  => 'bp_xprofile',
+			'groups' => 'bp_groups',
 		);
 
-		register_setting(
-			'buddypress',
-			'bp-avatar-suggestions-disable-backbone-ui',
-			'intval'
-		);
+		foreach ( $components as $key => $setting_section ) {
+
+			// Allow suggestions
+			add_settings_field(
+				"bp-avatar-suggestions-enable-{$key}",
+				__( 'Avatar Suggestions', 'bp-avatar-suggestions' ),
+				array( $this, "settings_callback_{$key}" ),
+				'buddypress',
+				$setting_section
+			);
+
+			register_setting(
+				'buddypress',
+				"bp-avatar-suggestions-enable-{$key}",
+				'intval'
+			);
+		}
 	}
 
 	/**
@@ -143,6 +171,10 @@ class Avatar_Suggestions_Admin {
 				// Remove an option not used anymore
 				bp_delete_option( 'bp-disable-avatar-suggestions' );
 				bp_delete_option( 'suggestion_list_avatar_array' );
+
+				// Init new options
+				bp_update_option( 'bp-avatar-suggestions-enable-users', $this->enable_users );
+				bp_update_option( 'bp-avatar-suggestions-enable-groups', $this->enable_groups );
 			}
 
 			// Upgrade db version
@@ -151,16 +183,30 @@ class Avatar_Suggestions_Admin {
 	}
 
 	/**
-	 * Setting callback function
+	 * Users Setting callback function
 	 *
 	 * @package BP Avatar Suggestions
 	 * @subpackage Admin
-	 * @since   1.1.0
+	 * @since   1.2.0
 	 */
-	public function settings_callback() {
+	public function settings_callback_users() {
 		?>
-		<input id="bp-avatar-suggestions-disable-backbone-ui" name="bp-avatar-suggestions-disable-backbone-ui" type="checkbox" value="1" <?php checked( $this->use_old_ui ); ?> />
-		<label for="bp-avatar-suggestions-disable-backbone-ui"><?php _e( 'Use the old administration interface', 'bp-avatar-suggestions' ); ?></label>
+		<input id="bp-avatar-suggestions-enable-users" name="bp-avatar-suggestions-enable-users" type="checkbox" value="1" <?php checked( $this->enable_users ); ?> />
+		<label for="bp-avatar-suggestions-enable-users"><?php _e( 'Enable suggestions for users', 'bp-avatar-suggestions' ); ?></label>
+		<?php
+	}
+
+	/**
+	 * Groups Setting callback function
+	 *
+	 * @package BP Avatar Suggestions
+	 * @subpackage Admin
+	 * @since   1.2.0
+	 */
+	public function settings_callback_groups() {
+		?>
+		<input id="bp-avatar-suggestions-enable-groups" name="bp-avatar-suggestions-enable-groups" type="checkbox" value="1" <?php checked( $this->enable_groups ); ?> />
+		<label for="bp-avatar-suggestions-enable-groups"><?php _e( 'Enable suggestions for groups', 'bp-avatar-suggestions' ); ?></label>
 		<?php
 	}
 
@@ -184,8 +230,6 @@ class Avatar_Suggestions_Admin {
 		wp_enqueue_script ( 'bp-as-admin-js', $bp->extend->avatar_suggestions->plugin_js . 'bp-as-admin.js', array( 'jquery', 'media-upload', 'thickbox' ), $bp->extend->avatar_suggestions->version, true );
 		wp_localize_script( 'bp-as-admin-js', 'bp_as_admin_vars', array(
 			'bpas_post_id' => $this->avatar_post_id,
-			'error'        => __( 'OOps something went wrong.', 'bp-avatar-suggestions' ),
-			'bpasnonce'    => wp_create_nonce( 'delete_avatar_suggestion' ),
 			'redirect'     => add_query_arg( 'page', 'bp-avatar-suggestions', bp_get_admin_url( 'admin.php' ) )
 		) );
 	}
@@ -198,6 +242,10 @@ class Avatar_Suggestions_Admin {
 	 * @since   1.1.0
 	 */
 	public function admin_menu() {
+		if ( $this->bail() ) {
+			return;
+		}
+
 		$page  = bp_core_do_network_admin()  ? 'settings.php' : 'options-general.php';
 
 		$hook_as = add_submenu_page(
@@ -211,6 +259,103 @@ class Avatar_Suggestions_Admin {
 
 		add_action( "admin_head-$hook_as", array( $this, 'modify_highlight' ) );
 		add_action( "load-$hook_as",       array( $this, 'admin_load'       ) );
+	}
+
+	/**
+	 * Load the Suggestion WP List table.
+	 *
+	 * @since   1.2.0
+	 */
+	public static function get_list_table_class( $class = '' ) {
+		if ( empty( $class ) ) {
+			return;
+		}
+
+		if ( ! class_exists( 'WP_List_Table') ) {
+			require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
+		}
+
+		require_once( buddypress()->extend->avatar_suggestions->includes_dir . 'bp-avatar-suggestions-list-table.php' );
+
+		return new $class();
+	}
+
+	/**
+	 * Set pagination.
+	 *
+	 * @since   1.2.0
+	 */
+	public function screen_options( $value = 0, $option = '', $new_value = 0 ) {
+		if ( 'settings_page_bp_avatar_suggestions_network_per_page' != $option && 'settings_page_bp_avatar_suggestions_per_page' != $option ) {
+			return $value;
+		}
+
+		// Per page
+		$new_value = (int) $new_value;
+		if ( $new_value < 1 || $new_value > 999 ) {
+			return $value;
+		}
+
+		return $new_value;
+	}
+
+	/**
+	 * Update the suggestion list if needed
+	 *
+	 * @package BP Avatar Suggestions
+	 * @subpackage Admin
+	 * @since   1.1.0
+	 */
+	public function admin_load() {
+		$this->suggestion_list_table = self::get_list_table_class( 'BP_Avatar_Suggestions_List_Table' );
+
+		// Build redirection URL
+		$redirect_to = add_query_arg(
+			array(
+				'page' => 'bp-avatar-suggestions',
+			),
+			bp_get_admin_url( 'admin.php' )
+		);
+
+		// Get action
+		$doaction = bp_admin_list_table_current_bulk_action();
+
+		do_action( 'bp_avatar_suggestions_admin_load', $doaction, $_REQUEST, $redirect_to );
+
+		if ( ( ! empty( $doaction ) && -1 != $doaction ) || ! empty( $_POST['changeit'] ) ) {
+
+			check_admin_referer( 'bulk-suggestions' );
+			$suggestions = array();
+
+			if ( ! empty( $_GET['suggestion_id'] ) ) {
+				$suggestions = wp_parse_id_list( $_GET['suggestion_id'] );
+			} else if ( ! empty( $_POST['allsuggestions'] ) ) {
+				$suggestions = wp_parse_id_list( $_POST['allsuggestions'] );
+			}
+
+			if ( 'delete' == $doaction && ! empty( $suggestions ) ) {
+
+				// Delete avatar
+				foreach ( $suggestions as $suggestion_id ) {
+					wp_delete_attachment( $suggestion_id, true );
+				}
+
+				wp_safe_redirect( add_query_arg( 'deleted', count( $suggestions ), $redirect_to ) );
+				exit();
+			} else if ( ! empty( $_POST['avatar_suggestions_type'] ) && ! empty( $suggestions ) ) {
+
+				// Update avatar types
+				foreach ( $suggestions as $suggestion_id ) {
+					update_post_meta( $suggestion_id, '_bpas_avatar_type', (int) $_POST['avatar_suggestions_type'] );
+				}
+
+				wp_safe_redirect( add_query_arg( 'changed', count( $suggestions ), $redirect_to ) );
+				exit();
+			}
+		}
+
+		// per_page screen option
+		add_screen_option( 'per_page', array( 'label' => _x( 'Suggestions', 'Suggestions per page (screen options)', 'bp-avatar-suggestions' ) ) );
 	}
 
 	/**
@@ -230,13 +375,105 @@ class Avatar_Suggestions_Admin {
 	}
 
 	/**
-	 * Update the suggestion list if needed
+	 * Hide submenu
 	 *
 	 * @package BP Avatar Suggestions
 	 * @subpackage Admin
 	 * @since   1.1.0
 	 */
-	public function admin_load() {}
+	public function admin_head() {
+		$page  = bp_core_do_network_admin()  ? 'settings.php' : 'options-general.php';
+
+		remove_submenu_page( $page, 'bp-avatar-suggestions' );
+	}
+
+	/**
+	 * Suggestions tab
+	 *
+	 * @package BP Avatar Suggestions
+	 * @subpackage Admin
+	 * @since   1.1.0
+	 */
+	public function admin_tab() {
+		if ( $this->bail() ) {
+			return;
+		}
+
+		$class = false;
+
+		if ( strpos( get_current_screen()->id, 'bp-avatar-suggestions' ) !== false ) {
+			$class = "nav-tab-active";
+		}
+		?>
+		<a href="<?php echo bp_get_admin_url( add_query_arg( array( 'page' => 'bp-avatar-suggestions' ), 'admin.php' ) );?>" class="nav-tab <?php echo $class;?>" style="margin-left:-6px"><?php esc_html_e( 'Avatar Suggestions', 'bp-avatar-suggestions' );?></a>
+		<?php
+	}
+
+	/**
+	 * Display the admin
+	 *
+	 * @package BP Avatar Suggestions
+	 * @subpackage Admin
+	 * @since   1.1.0
+	 */
+	public function admin_display() {
+		// Prepare the group items for display
+		$this->suggestion_list_table->prepare_items();
+
+		$form_url = add_query_arg(
+			array(
+				'page' => 'bp-avatar-suggestions',
+			),
+			bp_get_admin_url( 'admin.php' )
+		);
+
+		// User feedback
+		$message = false;
+		if ( ! empty( $_GET['deleted'] ) ) {
+			$message = sprintf(
+				_nx( '%s suggestion was deleted.', '%s suggestions were deleted.',
+				absint( $_GET['deleted'] ),
+				'suggestion deleted',
+				'bp-avatar-suggestions'
+			), number_format_i18n( absint( $_GET['deleted'] ) ) );
+		} else if ( ! empty( $_GET['changed'] ) ) {
+			$message = sprintf(
+				_nx( '%s suggestion had their type changed.', '%s suggestions had their type changed.',
+				absint( $_GET['changed'] ),
+				'suggestion type edited',
+				'bp-avatar-suggestions'
+			), number_format_i18n( absint( $_GET['changed'] ) ) );
+		}
+		?>
+
+		<div class="wrap">
+
+			<h2 class="nav-tab-wrapper"><?php bp_core_admin_tabs( __( 'Avatar Suggestions', 'bp-avatar-suggestions' ) ); ?></h2>
+
+			<?php if ( ! empty( $message ) ) : ?>
+				<div id="message" class="updated"><p><?php echo esc_html( $message ); ?></p></div>
+			<?php
+			unset( $message );
+			endif; ?>
+
+			<h3><?php _e( 'Suggestions', 'bp-avatar-suggestions' ); ?>
+
+				<?php if ( bp_current_user_can( 'upload' ) ) : ?>
+
+					<a href="<?php echo esc_url( admin_url( 'media-upload.php' ) );?>" class="avatar_upload_image_button add-new-h2"><?php echo esc_html_x( 'Add New', 'Avatar suggestions add button', 'bp-avatar-suggestions' ); ?></a>
+
+				<?php endif; ?>
+			</h3>
+
+			<?php $this->suggestion_list_table->views(); ?>
+
+			<form id="bp-avatar-suggestions-form" action="<?php echo esc_url( $form_url );?>" method="post">
+				<?php $this->suggestion_list_table->display(); ?>
+			</form>
+
+		</div>
+		<?php
+	}
 
 	/**
 	 * Set the media upload iframe for the old interface
@@ -289,134 +526,6 @@ class Avatar_Suggestions_Admin {
 		/*]]>*/
 		</style>
 		<?php
-	}
-
-	/**
-	 * Display the admin (old interface)
-	 *
-	 * @package BP Avatar Suggestions
-	 * @subpackage Admin
-	 * @since   1.1.0
-	 */
-	public function admin_display() {
-		$suggested_avatars = array();
-
-		if ( ! empty( $this->avatar_post_id ) ) {
-			$suggested_avatars = get_posts(  array(
-				'post_type'   => 'attachment',
-				'post_parent' => $this->avatar_post_id,
-				'numberposts' => -1,
-			) );
-		}
-		$message = false;
-		?>
-		<div class="wrap">
-			<?php screen_icon( 'buddypress'); ?>
-
-			<h2 class="nav-tab-wrapper"><?php bp_core_admin_tabs( __( 'Avatar Suggestions', 'bp-avatar-suggestions' ) ); ?></h2>
-
-			<div style="margin-top:10px">
-
-				<p class="description"><?php esc_html_e( 'Click to add as much avatar suggestions as needed, once done, simply close the lightbox window.', 'bp-avatar-suggestions' );?></p>
-				<p class="submit clear"><a href="<?php echo esc_url( admin_url( 'media-upload.php' ) );?>" class="avatar_upload_image_button button-primary"><?php _e( 'Add an avatar', 'bp-avatar-suggestions' );?></a></p>
-
-				<?php if ( count( $suggested_avatars ) >= 1 ) : ?>
-
-					<div style="width:50%;">
-
-						<table class="widefat">
-							<thead>
-								<tr>
-									<th><?php _e( 'Avatars', 'bp-avatar-suggestions' );?></th>
-									<th><?php _e( 'Actions', 'bp-avatar-suggestions' );?></th>
-								</tr>
-							</thead>
-							<tfoot>
-								<tr>
-									<th><?php _e( 'Avatars', 'bp-avatar-suggestions' );?></th>
-									<th><?php _e( 'Actions', 'bp-avatar-suggestions' );?></th>
-								</tr>
-							</tfoot>
-							<tbody>
-								<?php foreach( $suggested_avatars as $attachment ) :?>
-
-									<?php $avatar = wp_get_attachment_image_src( $attachment->ID, array(50, 50) );?>
-
-									<tr id="avatar-<?php echo $attachment->ID;?>">
-										<td>
-											<img src="<?php echo $avatar[0];?>" alt="avatar choice" id="avatar-<?php echo $attachment->ID;?>-avatar" width="<?php echo $avatar[1];?>" height="<?php echo $avatar[1];?>">
-										</td>
-										<td>
-											<p><a href="#" class="avatar_delete_image_button button-secondary" data-attachmentid="<?php echo $attachment->ID;?>"><?php _e( 'Delete this avatar', 'bp-avatar-suggestions' );?></a></p>
-											<input type="hidden" name="suggestion_list_avatar_ids[]" id="avatar-<?php echo $attachment->ID;?>-id" class="avatar_thumbnail_id" value="<?php echo $attachment->ID;?>">
-										</td>
-									</tr>
-
-								<?php endforeach;?>
-							</tbody>
-						</table>
-					</div>
-
-				<?php endif;?>
-
-			</div>
-		</div>
-		<?php
-	}
-
-	/**
-	 * Hide submenu
-	 *
-	 * @package BP Avatar Suggestions
-	 * @subpackage Admin
-	 * @since   1.1.0
-	 */
-	public function admin_head() {
-		$page  = bp_core_do_network_admin()  ? 'settings.php' : 'options-general.php';
-
-		remove_submenu_page( $page, 'bp-avatar-suggestions' );
-	}
-
-	/**
-	 * Suggestions tab
-	 *
-	 * @package BP Avatar Suggestions
-	 * @subpackage Admin
-	 * @since   1.1.0
-	 */
-	public function admin_tab() {
-		$class = false;
-
-		if ( strpos( get_current_screen()->id, 'bp-avatar-suggestions' ) !== false )
-			$class = "nav-tab-active";
-		?>
-		<a href="<?php echo bp_get_admin_url( add_query_arg( array( 'page' => 'bp-avatar-suggestions' ), 'admin.php' ) );?>" class="nav-tab <?php echo $class;?>" style="margin-left:-6px"><?php esc_html_e( 'Avatar Suggestions', 'bp-avatar-suggestions' );?></a>
-		<?php
-	}
-
-	/**
-	 * Removes a suggestion
-	 *
-	 * @package BP Avatar Suggestions
-	 * @subpackage Admin
-	 * @since   1.1.0
-	 */
-	public function suggestion_delete() {
-		$post_id = ! empty( $_POST['attachmentid'] ) ? absint( $_POST['attachmentid'] ) : 0;
-
-		if ( empty( $post_id ) ) {
-			return;
-		}
-
-		check_ajax_referer( 'delete_avatar_suggestion', 'nonce' );
-
-		$result = wp_delete_attachment( $post_id, true );
-
-		if ( ! empty( $result->ID ) ) {
-			wp_die( $result->ID );
-		} else {
-			wp_die( -1 );
-		}
 	}
 }
 
