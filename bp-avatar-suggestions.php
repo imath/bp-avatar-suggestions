@@ -14,7 +14,7 @@ Domain Path: /languages/
 */
 
 // Exit if accessed directly
-if ( ! defined( 'ABSPATH' ) ) exit;
+defined( 'ABSPATH' ) || exit;
 
 class Avatar_Suggestions {
 	/**
@@ -112,6 +112,7 @@ class Avatar_Suggestions {
 		/** Urls ***********************************************/
 		$this->plugin_url    = plugin_dir_url( $this->file );
 		$this->plugin_js     = trailingslashit( $this->plugin_url . 'js' );
+		$this->plugin_css    = trailingslashit( $this->plugin_url . 'css' );
 
 		$this->avatar_post_id = bp_get_option( 'bp_avatar_suggestions_post_id', 0 );
 	}

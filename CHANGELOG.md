@@ -7,7 +7,8 @@ Versions
 + requires WordPress 4.1
 + requires BuddyPress 2.2
 + Use a draft post to attach the avatar to
-+ Improve the 'old' interface so that it is now possible to bulk upload avatar suggestions.
++ Improve the interface so that it is now possible to bulk upload and delete avatar suggestions.
++ Improve the Avatar suggestions "selector", so that it can be used even if BuddyPress user uploads are disabled
 
 
 1.1

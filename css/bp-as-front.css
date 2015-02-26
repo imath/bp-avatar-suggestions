@@ -1,0 +1,18 @@
+#avatar-suggestions-selector .avatar-suggestions-list ul.avatar-suggestions {
+	list-style:none;
+	clear:both;
+	overflow: hidden;
+}
+
+#avatar-suggestions-selector .avatar-suggestions-list ul.avatar-suggestions li {
+	float:left;
+	margin:5px;
+}
+
+#avatar-suggestions-selector .avatar-suggestions-list ul.avatar-suggestions li img.avatar {
+	cursor: pointer;
+}
+
+#avatar-suggestions-selector .avatar-suggestions-list ul.avatar-suggestions li.selected img.avatar {
+	border:solid 3px #0073aa;
+}
