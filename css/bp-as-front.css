@@ -13,6 +13,10 @@
 	cursor: pointer;
 }
 
+#avatar-suggestions-selector .avatar-suggestions-list ul.avatar-suggestions li img.avatar {
+	border:solid 5px #fff;
+}
+
 #avatar-suggestions-selector .avatar-suggestions-list ul.avatar-suggestions li.selected img.avatar {
-	border:solid 3px #0073aa;
+	border:solid 5px #0073aa;
 }

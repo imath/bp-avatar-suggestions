@@ -115,6 +115,8 @@ class Avatar_Suggestions {
 		$this->plugin_css    = trailingslashit( $this->plugin_url . 'css' );
 
 		$this->avatar_post_id = bp_get_option( 'bp_avatar_suggestions_post_id', 0 );
+		$this->enable_users   = bp_get_option( 'bp-avatar-suggestions-enable-users', 1 );
+		$this->enable_groups  = bp_get_option( 'bp-avatar-suggestions-enable-groups', 1 );
 	}
 
 	/**
@@ -129,6 +131,10 @@ class Avatar_Suggestions {
 		}
 
 		require( $this->includes_dir . 'bp-avatar-suggestions-front.php' );
+
+		if ( bp_is_active( 'groups' ) && ! empty( $this->enable_groups ) ) {
+			require( $this->includes_dir . 'bp-avatar-suggestions-groups.php' );
+		}
 
 		if ( is_admin() ) {
 			require( $this->includes_dir . 'bp-avatar-suggestions-admin.php' );
@@ -194,6 +200,11 @@ class Avatar_Suggestions {
 
 		// Delete all user metas having the $avatar_url
 		delete_metadata( 'user', false, 'user_avatar_choice', $avatar_url[0], true );
+
+		if ( bp_is_active( 'groups' ) ) {
+			// Delete all user metas having the $avatar_url
+			delete_metadata( 'group', false, 'group_avatar_choice', $avatar_url[0], true );
+		}
 	}
 
 	/**

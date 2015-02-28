@@ -4,11 +4,12 @@ Versions
 1.2
 ---
 
-+ requires WordPress 4.1
-+ requires BuddyPress 2.2
-+ Use a draft post to attach the avatar to
-+ Improve the interface so that it is now possible to bulk upload and delete avatar suggestions.
-+ Improve the Avatar suggestions "selector", so that it can be used even if BuddyPress user uploads are disabled
++ requires WordPress 4.1.
++ requires BuddyPress 2.2.
++ Uses a draft post to attach the avatar to.
++ Improves the interface so that it is now possible to bulk upload and delete avatar suggestions.
++ Improves the Avatar suggestions "selector", so that it can be used even if BuddyPress user uploads are disabled.
++ Adds support for Groups avatar suggestions.
 
 
 1.1

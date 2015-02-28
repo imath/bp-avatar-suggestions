@@ -20,7 +20,7 @@ class Avatar_Suggestions_Front {
 	 * @uses buddypress() to get BuddyPress main instance.
 	 */
 	public static function start() {
-
+		// Get BuddyPress instance
 		$bp = buddypress();
 
 		if( empty( $bp->extend->avatar_suggestions->front ) ) {
@@ -50,9 +50,13 @@ class Avatar_Suggestions_Front {
 	 * @since   1.1.0
 	 */
 	private function setup_globals() {
-		$this->avatar_post_id = buddypress()->extend->avatar_suggestions->avatar_post_id;
-		$this->enable_users   = bp_get_option( 'bp-avatar-suggestions-enable-users', 1 );
-		$this->enable_groups  = bp_get_option( 'bp-avatar-suggestions-enable-groups', 1 );
+		// Get BuddyPress instance
+		$bp = buddypress();
+
+		$this->avatar_post_id = $bp->extend->avatar_suggestions->avatar_post_id;
+		$this->enable_users   = $bp->extend->avatar_suggestions->enable_users;
+		$this->enable_groups  = $bp->extend->avatar_suggestions->enable_groups;
+		$this->min            = SCRIPT_DEBUG ? '' : '.min';
 	}
 
 	/**
@@ -65,7 +69,11 @@ class Avatar_Suggestions_Front {
 	private function setup_hooks() {
 		// javascript
 		add_action( 'bp_enqueue_scripts',                     array( $this, 'enqueue_script'       ) );
+
+		// Load the javascript template for the Suggestions selector
 		add_action( 'bp_after_profile_avatar_upload_content', array( $this, 'suggestions_selector' ) );
+		add_action( 'bp_after_group_avatar_creation_step',    array( $this, 'suggestions_selector' ) );
+		add_action( 'bp_after_group_admin_content',           array( $this, 'suggestions_selector' ) );
 
 		// Get Suggestions
 		add_action( 'wp_ajax_get_avatar_suggestions',   array( $this, 'get_avatar_suggestions' ) );
@@ -79,6 +87,22 @@ class Avatar_Suggestions_Front {
 		// filter avatar
 		add_filter( 'bp_core_fetch_avatar',                array( $this, 'suggestion_avatar' ), 1, 2 );
 		add_filter( 'bp_core_fetch_avatar_url',            array( $this, 'suggestion_avatar' ), 1, 2 );
+	}
+
+	/**
+	 * Bail if avatars are not enabled
+	 *
+	 * @package BP Avatar Suggestions
+	 * @subpackage Front
+	 * @since   1.2.0
+	 *
+	 * @return bool whether avatars are enabled or not
+	 */
+	public function bail() {
+		// Get BuddyPress instance
+		$bp = buddypress();
+
+		return empty( $bp->avatar->show_avatars );
 	}
 
 	/**
@@ -120,7 +144,13 @@ class Avatar_Suggestions_Front {
 		$suggestions = array_map( 'wp_prepare_attachment_for_js', $query->posts );
 
 		if ( ! empty( $suggestions ) ) {
-			$current_item_avatar = bp_get_user_meta( absint( $_POST['item_id'] ), 'user_avatar_choice', true );
+			$item_id = absint( $_POST['item_id'] );
+
+			if ( bp_is_group_admin_page() || bp_is_group_create() ) {
+				$current_item_avatar = groups_get_groupmeta( $item_id, 'group_avatar_choice', true );
+			} else {
+				$current_item_avatar = bp_get_user_meta( $item_id, 'user_avatar_choice', true );
+			}
 
 			// Set the current user's avatar as selected
 			if ( ! empty( $current_item_avatar ) ) {
@@ -138,6 +168,87 @@ class Avatar_Suggestions_Front {
 	}
 
 	/**
+	 * Are we editing a user avatar ?
+	 *
+	 * @package BP Avatar Suggestions
+	 * @subpackage Front
+	 * @since   1.2.0
+	 *
+	 * @return bool true if editing a user avatar, false otherwise
+	 */
+	public function is_user_set_avatar() {
+		$retval = false;
+
+		if ( empty( $this->enable_users ) || ! bp_is_user() ) {
+			return $retval;
+		}
+
+		if ( bp_is_user_change_avatar() && $this->enable_users && 'crop-image' != bp_get_avatar_admin_step() && ! bp_get_user_has_avatar( bp_displayed_user_id() ) ) {
+			$retval = true;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Are we editing a group avatar during group creation ?
+	 *
+	 * @package BP Avatar Suggestions
+	 * @subpackage Front
+	 * @since   1.2.0
+	 *
+	 * @return bool true if editing a group avatar, false otherwise
+	 */
+	public function is_group_create_avatar() {
+		$retval = false;
+
+		if ( empty( $this->enable_groups ) ) {
+			return $retval;
+		}
+
+		$action = 'group-avatar';
+		if ( buddypress()->site_options['bp-disable-avatar-uploads'] ) {
+			$action = 'avatar-suggestions';
+		}
+
+		// create
+		if ( bp_is_group_create() && bp_is_group_creation_step( $action ) && 'crop-image' != bp_get_avatar_admin_step() ) {
+			$retval = true;
+		}
+
+		return $retval;
+	}
+
+	/**
+	 * Are we editing a group avatar ?
+	 *
+	 * @package BP Avatar Suggestions
+	 * @subpackage Front
+	 * @since   1.2.0
+	 *
+	 * @return bool true if editing a group avatar, false otherwise
+	 */
+	public function is_group_manage_avatar() {
+		$retval = false;
+
+		if ( empty( $this->enable_groups ) ) {
+			return $retval;
+		}
+
+		$action = 'group-avatar';
+		if ( buddypress()->site_options['bp-disable-avatar-uploads'] ) {
+			$action = 'avatar-suggestions';
+		}
+
+		// manage
+		if ( bp_is_group_admin_page() && bp_is_group_admin_screen( $action ) && 'crop-image' != bp_get_avatar_admin_step() && ! bp_get_group_has_avatar() ) {
+			$retval = true;
+		}
+
+		return $retval;
+	}
+
+	/**
 	 * Enqueue script
 	 *
 	 * @package BP Avatar Suggestions
@@ -145,9 +256,14 @@ class Avatar_Suggestions_Front {
 	 * @since   1.1.0
 	 */
 	public function enqueue_script() {
+		// Bail if avatar feature is completely disabled
+		if ( $this->bail() ) {
+			return;
+		}
+
 		// Bail if we're not on the change-avatar page
-		if ( ! bp_is_user_change_avatar() || ! $this->enable_users || ( 'crop-image' == bp_get_avatar_admin_step() ) ) {
-			return false;
+		if ( ! $this->is_user_set_avatar() && ! $this->is_group_create_avatar() && ! $this->is_group_manage_avatar() ) {
+			return;
 		}
 
 		$suggestions_settings = array(
@@ -156,23 +272,30 @@ class Avatar_Suggestions_Front {
 			'avatarNotSaved'      => esc_html__( 'Error: Avatar not saved.', 'bp-avatar-suggestions' ),
 			'avatarRemoved'       => esc_html__( 'Success: Avatar removed.', 'bp-avatar-suggestions' ),
 			'avatarNotRemoved'    => esc_html__( 'Error: Avatar not removed.', 'bp-avatar-suggestions' ),
+			'groupCreateContext'  => $this->is_group_create_avatar(),
 		);
 
 		if ( bp_is_user() ) {
-
-			if ( bp_get_user_has_avatar( bp_displayed_user_id() ) ) {
-				return;
-			}
-
 			$suggestions_settings['item_object'] = 'user';
 			$suggestions_settings['item_id']     = bp_displayed_user_id();
-		} else if ( bp_is_group() ) {
+		} else if ( bp_is_group() || bp_is_group_create() ) {
+			// Get the group id
+			$group_id =  bp_get_current_group_id();
+
+			// Get the new group id
+			if ( empty( $group_id ) ) {
+				$group_id = bp_get_new_group_id();
+			}
+
 			$suggestions_settings['item_object'] = 'group';
-			$suggestions_settings['item_id']     = bp_get_current_group_id();
+			$suggestions_settings['item_id']     = $group_id;
 		}
 
-		wp_enqueue_style  ( 'bp-as-front-style', buddypress()->extend->avatar_suggestions->plugin_css . 'bp-as-front.css', array(), buddypress()->extend->avatar_suggestions->version );
-		wp_enqueue_script ( 'bp-as-backbone-front', buddypress()->extend->avatar_suggestions->plugin_js . 'bp-as-backbone-front.js', array( 'wp-backbone' ), buddypress()->extend->avatar_suggestions->version, true );
+		// Get BuddyPress instance
+		$bp = buddypress();
+
+		wp_enqueue_style  ( 'bp-as-front-style', $bp->extend->avatar_suggestions->plugin_css . "bp-as-front{$this->min}.css", array(), $bp->extend->avatar_suggestions->version );
+		wp_enqueue_script ( 'bp-as-backbone-front', $bp->extend->avatar_suggestions->plugin_js . "bp-as-backbone-front{$this->min}.js", array( 'wp-backbone' ), $bp->extend->avatar_suggestions->version, true );
 		wp_localize_script( 'bp-as-backbone-front', 'avatar_suggestions_vars', $suggestions_settings );
 	}
 
@@ -184,9 +307,14 @@ class Avatar_Suggestions_Front {
 	 * @since   1.2.0
 	 */
 	public function suggestions_selector() {
+		// Bail if avatar feature is completely disabled
+		if ( $this->bail() ) {
+			return;
+		}
+
 		// Bail if we're not on the change-avatar page
-		if ( ! bp_is_user_change_avatar() || ! $this->enable_users || bp_get_user_has_avatar( bp_displayed_user_id() ) || ( 'crop-image' == bp_get_avatar_admin_step() ) ) {
-			return false;
+		if ( ! $this->is_user_set_avatar() && ! $this->is_group_create_avatar() && ! $this->is_group_manage_avatar() ) {
+			return;
 		}
 
 		?>
@@ -217,14 +345,22 @@ class Avatar_Suggestions_Front {
 			wp_send_json_error();
 		}
 
-		$user_id = absint( $_POST['item_id'] );
+		$item_id = absint( $_POST['item_id'] );
 		$avatar = esc_url( $_POST['avatar_url'] );
 
 		check_ajax_referer( 'avatar_suggestions_selector', 'nonce' );
 
-		bp_update_user_meta( $user_id, 'user_avatar_choice', $avatar );
+		if ( bp_is_group_admin_page() || bp_is_group_create() ) {
+			groups_update_groupmeta( $item_id, 'group_avatar_choice', $avatar );
 
-		do_action( 'xprofile_avatar_uploaded' );
+			if ( bp_is_group_admin_page() ) {
+				do_action( 'groups_screen_group_admin_avatar', $item_id );
+			}
+		} else {
+			bp_update_user_meta( $item_id, 'user_avatar_choice', $avatar );
+
+			do_action( 'xprofile_avatar_uploaded' );
+		}
 
 		wp_send_json_success();
 	}
@@ -241,11 +377,21 @@ class Avatar_Suggestions_Front {
 			wp_send_json_error();
 		}
 
+		$item_id = absint( $_POST['item_id'] );
+
 		check_ajax_referer( 'avatar_suggestions_selector', 'nonce' );
 
-		bp_delete_user_meta( $_POST['item_id'], 'user_avatar_choice' );
+		if ( bp_is_group_admin_page() || bp_is_group_create() ) {
+			groups_delete_groupmeta( $item_id, 'group_avatar_choice' );
 
-		do_action( 'bp_core_delete_existing_avatar' );
+			if ( bp_is_group_admin_page() ) {
+				do_action( 'groups_screen_group_admin_avatar', $item_id );
+			}
+		} else {
+			bp_delete_user_meta( $item_id, 'user_avatar_choice' );
+
+			do_action( 'bp_core_delete_existing_avatar' );
+		}
 
 		$this->avatar_removed = true;
 
@@ -269,26 +415,63 @@ class Avatar_Suggestions_Front {
 	 * @since   1.1.0
 	 */
 	function suggestion_avatar( $image = '', $params = array() ) {
-		if ( ! $this->enable_users || 'user' != $params['object'] || ! empty( $params['no_grav'] ) || empty( $params['item_id'] ) || ! empty( $this->avatar_removed ) ) {
+		if ( ! empty( $this->avatar_removed ) ) {
+			return $image;
+		}
+
+		if ( ! empty( $params['no_grav'] ) || empty( $params['item_id'] ) ) {
+			return $image;
+		}
+
+		if ( ! $this->enable_users && 'user' == $params['object'] ) {
+			return $image;
+		}
+
+		if ( ! $this->enable_groups && 'group' == $params['object'] ) {
+			return $image;
+		}
+
+		$component_items = array( 'user' => 1, 'group' => 1 );
+		if ( empty( $component_items[ $params['object'] ] ) ) {
 			return $image;
 		}
 
 		$item_id = absint( $params['item_id'] );
 
-		if ( ! bp_get_user_has_avatar( $item_id ) ) {
+		switch( $params['object'] ) {
+			case 'group' :
+			if ( ! bp_get_group_has_avatar( $item_id ) ) {
 
-			$user_choice = get_user_meta( $item_id, 'user_avatar_choice', true );
+				$group_choice = groups_get_groupmeta( $item_id, 'group_avatar_choice', true );
 
-			if ( empty( $user_choice ) ) {
-				return $image;
+				if ( empty( $group_choice ) ) {
+					return $image;
+				}
+
+				if ( ! empty( $params['html'] ) ){
+					$image = preg_replace('/src="([^"]*)"/i', 'src="' . $group_choice . '"', $image );
+				} else {
+					$image = $group_choice;
+				}
+
 			}
 
-			if ( ! empty( $params['html'] ) ){
-				$image = preg_replace('/src="([^"]*)"/i', 'src="' . $user_choice . '"', $image );
-			} else {
-				$image = $user_choice;
-			}
+			case 'user' :
+			if ( ! bp_get_user_has_avatar( $item_id ) ) {
 
+				$user_choice = get_user_meta( $item_id, 'user_avatar_choice', true );
+
+				if ( empty( $user_choice ) ) {
+					return $image;
+				}
+
+				if ( ! empty( $params['html'] ) ){
+					$image = preg_replace('/src="([^"]*)"/i', 'src="' . $user_choice . '"', $image );
+				} else {
+					$image = $user_choice;
+				}
+
+			}
 		}
 
 		/* in case you need to filter with your own function... */

@@ -23,14 +23,24 @@ window.wp = window.wp || {};
 
 			reverse = ( type == 'updated' ) ? 'error' : 'updated';
 
-			$( 'html, body' ).animate( { scrollTop: $( "#item-header-avatar" ).offset().top }, 500 );
+			if ( avatar_suggestions_vars.groupCreateContext ) {
+				header =  '#create-group-form';
+				$( 'html, body' ).animate( { scrollTop: $( '#create-group-form' ).offset().top }, 500 );
+			} else {
+				header = '#item-header';
+				$( 'html, body' ).animate( { scrollTop: $( '#item-header-avatar' ).offset().top }, 500 );
+			}
 
 			if ( ! $( '#message' ).length ) {
-				$( '#item-header' ).append( '<div id="message" class="' + type + '"><p>' + message + '</p>' );
+				if ( avatar_suggestions_vars.groupCreateContext ) {
+					$( header ).prepend( '<div id="message" class="' + type + '"><p>' + message + '</p>' );
+				} else {
+					$( header ).append( '<div id="message" class="' + type + '"><p>' + message + '</p>' );
+				}
 			} else {
-				$( '#item-header #message' ).removeClass( reverse );
-				$( '#item-header #message' ).addClass( type );
-				$( '#item-header #message p' ).html( message );
+				$( header + ' #message' ).removeClass( reverse );
+				$( header + ' #message' ).addClass( type );
+				$( header + ' #message p' ).html( message );
 			}
 		}
 	};
@@ -113,8 +123,8 @@ window.wp = window.wp || {};
 				nonce:       avatar_suggestions.vars.nonce
 			} ).done( function( resp, status, xhr ) {
 				suggestion.set( 'saving', 0 );
-				avatar_suggestions.feedback( 
-					avatar, 
+				avatar_suggestions.feedback(
+					avatar,
 					avatar_suggestions.vars.item_object,
 					avatar_suggestions.vars.item_id,
 					avatar_suggestions.vars.avatarSaved,
@@ -122,8 +132,8 @@ window.wp = window.wp || {};
 				);
 			} ).fail( function( resp, status, xhr ) {
 				suggestion.set( 'saving', 0 );
-				avatar_suggestions.feedback( 
-					avatar_suggestions.previousAvatar, 
+				avatar_suggestions.feedback(
+					avatar_suggestions.previousAvatar,
 					avatar_suggestions.vars.item_object,
 					avatar_suggestions.vars.item_id,
 					avatar_suggestions.vars.avatarNotSaved,
@@ -149,8 +159,8 @@ window.wp = window.wp || {};
 				nonce:       avatar_suggestions.vars.nonce
 			} ).done( function( resp, status, xhr ) {
 				suggestion.set( 'saving', 0 );
-				avatar_suggestions.feedback( 
-					resp, 
+				avatar_suggestions.feedback(
+					resp,
 					avatar_suggestions.vars.item_object,
 					avatar_suggestions.vars.item_id,
 					avatar_suggestions.vars.avatarRemoved,
@@ -158,8 +168,8 @@ window.wp = window.wp || {};
 				);
 			} ).fail( function( resp, status, xhr ) {
 				suggestion.set( 'saving', 0 );
-				avatar_suggestions.feedback( 
-					avatar, 
+				avatar_suggestions.feedback(
+					avatar,
 					avatar_suggestions.vars.item_object,
 					avatar_suggestions.vars.item_id,
 					avatar_suggestions.vars.avatarNotRemoved,

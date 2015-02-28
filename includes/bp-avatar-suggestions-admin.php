@@ -20,7 +20,7 @@ class Avatar_Suggestions_Admin {
 	 * @uses buddypress() to get BuddyPress main instance.
 	 */
 	public static function start() {
-
+		// Get BuddyPress instance
 		$bp = buddypress();
 
 		if( empty( $bp->extend->avatar_suggestions->admin ) ) {
@@ -50,9 +50,13 @@ class Avatar_Suggestions_Admin {
 	 * @since   1.1.0
 	 */
 	private function setup_globals() {
-		$this->avatar_post_id = buddypress()->extend->avatar_suggestions->avatar_post_id;
-		$this->enable_users   = bp_get_option( 'bp-avatar-suggestions-enable-users', 1 );
-		$this->enable_groups  = bp_get_option( 'bp-avatar-suggestions-enable-groups', 1 );
+		// Get BuddyPress instance
+		$bp = buddypress();
+
+		$this->avatar_post_id = $bp->extend->avatar_suggestions->avatar_post_id;
+		$this->enable_users   = $bp->extend->avatar_suggestions->enable_users;
+		$this->enable_groups  = $bp->extend->avatar_suggestions->enable_groups;
+		$this->min            = SCRIPT_DEBUG ? '' : '.min';
 	}
 
 	/**
@@ -95,6 +99,7 @@ class Avatar_Suggestions_Admin {
 	 * @return bool whether avatars are enabled or not
 	 */
 	public function bail() {
+		// Get BuddyPress instance
 		$bp = buddypress();
 
 		return empty( $bp->avatar->show_avatars );
@@ -223,11 +228,12 @@ class Avatar_Suggestions_Admin {
 			return;
 		}
 
+		// Get BuddyPress instance
 		$bp = buddypress();
 
 		wp_enqueue_script( 'media-upload' );
 		add_thickbox();
-		wp_enqueue_script ( 'bp-as-admin-js', $bp->extend->avatar_suggestions->plugin_js . 'bp-as-admin.js', array( 'jquery', 'media-upload', 'thickbox' ), $bp->extend->avatar_suggestions->version, true );
+		wp_enqueue_script ( 'bp-as-admin-js', $bp->extend->avatar_suggestions->plugin_js . "bp-as-admin{$this->min}.js", array( 'jquery', 'media-upload', 'thickbox' ), $bp->extend->avatar_suggestions->version, true );
 		wp_localize_script( 'bp-as-admin-js', 'bp_as_admin_vars', array(
 			'bpas_post_id' => $this->avatar_post_id,
 			'redirect'     => add_query_arg( 'page', 'bp-avatar-suggestions', bp_get_admin_url( 'admin.php' ) )
