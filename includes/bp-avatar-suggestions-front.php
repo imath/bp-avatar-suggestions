@@ -1,6 +1,15 @@
 <?php
+/**
+ * The Front class.
+ *
+ * @package BP Avatar Suggestions
+ * @subpackage Front
+ * @since   1.1.0
+ */
+
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
+
 /**
  * Load Front class.
  *

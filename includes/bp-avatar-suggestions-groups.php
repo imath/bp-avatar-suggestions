@@ -1,11 +1,12 @@
 <?php
 /**
- * Load Groups class.
+ * The Groups class.
  *
  * @package BP Avatar Suggestions
  * @subpackage Groups
  * @since   1.2.0
  */
+
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
 

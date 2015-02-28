@@ -1,114 +1,166 @@
-# Copyright (C) 2014 BP Avatar Suggestions
+# Copyright (C) 2015 BP Avatar Suggestions
 # This file is distributed under the same license as the BP Avatar Suggestions package.
 msgid ""
 msgstr ""
-"Project-Id-Version: BP Avatar Suggestions 1.1\n"
+"Project-Id-Version: BP Avatar Suggestions 1.2-beta\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/bp-avatar-suggestions\n"
-"POT-Creation-Date: 2014-04-28 16:37:57+00:00\n"
+"POT-Creation-Date: 2015-02-28 15:24:03+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2014-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2015-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#: bp-avatar-suggestions.php:172
+#: bp-avatar-suggestions.php:247
 msgid "%1$s requires at least version %2$s of BuddyPress."
 msgstr ""
 
-#: bp-avatar-suggestions.php:182
+#: bp-avatar-suggestions.php:257
 msgid "%s and BuddyPress need to share the same network configuration."
 msgstr ""
 
-#: bp-avatar-suggestions.php:186
-msgid "%s requires the BuddyPress extended profile component"
-msgstr ""
-
-#: includes/bp-avatar-suggestions-admin.php:98
-#: includes/bp-avatar-suggestions-admin.php:260
-#: includes/bp-avatar-suggestions-admin.php:380
+#: includes/bp-avatar-suggestions-admin.php:139
+#: includes/bp-avatar-suggestions-admin.php:423
+#: includes/bp-avatar-suggestions-admin.php:466
 msgid "Avatar Suggestions"
 msgstr ""
 
-#: includes/bp-avatar-suggestions-admin.php:138
-msgid "Allow registered members to choose a suggested avatar"
+#: includes/bp-avatar-suggestions-admin.php:169
+msgid "BP Avatar Suggestions required post (do not edit or delete)"
 msgstr ""
 
-#: includes/bp-avatar-suggestions-admin.php:159
-#: includes/bp-avatar-suggestions-front.php:120
-msgid "OOps something went wrong."
+#: includes/bp-avatar-suggestions-admin.php:209
+msgid "Enable suggestions for users"
 msgstr ""
 
-#: includes/bp-avatar-suggestions-admin.php:176
-#: includes/bp-avatar-suggestions-admin.php:177
+#: includes/bp-avatar-suggestions-admin.php:223
+msgid "Enable suggestions for groups"
+msgstr ""
+
+#: includes/bp-avatar-suggestions-admin.php:268
+#: includes/bp-avatar-suggestions-admin.php:269
 msgid "Avatar Suggestions Settings"
 msgstr ""
 
-#: includes/bp-avatar-suggestions-admin.php:273
-#: includes/bp-avatar-suggestions-admin.php:279
-msgid "Avatars"
+#: includes/bp-avatar-suggestions-admin.php:373
+msgctxt "Suggestions per page (screen options)"
+msgid "Suggestions"
 msgstr ""
 
-#: includes/bp-avatar-suggestions-admin.php:274
-#: includes/bp-avatar-suggestions-admin.php:280
-msgid "Actions"
+#: includes/bp-avatar-suggestions-admin.php:449
+msgctxt "suggestion deleted"
+msgid "%s suggestion was deleted."
+msgid_plural "%s suggestions were deleted."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/bp-avatar-suggestions-admin.php:456
+msgctxt "suggestion type edited"
+msgid "%s suggestion had their type changed."
+msgid_plural "%s suggestions had their type changed."
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/bp-avatar-suggestions-admin.php:474
+msgid "Suggestions"
 msgstr ""
 
-#: includes/bp-avatar-suggestions-admin.php:293
-msgid "Delete this avatar"
+#: includes/bp-avatar-suggestions-admin.php:478
+msgctxt "Avatar suggestions add button"
+msgid "Add New"
 msgstr ""
 
-#: includes/bp-avatar-suggestions-admin.php:310
-#: includes/bp-avatar-suggestions-admin.php:315
-msgid "New Avatar"
+#: includes/bp-avatar-suggestions-front.php:280
+msgid "Success: Avatar saved."
 msgstr ""
 
-#: includes/bp-avatar-suggestions-admin.php:322
-msgid "Add an avatar"
+#: includes/bp-avatar-suggestions-front.php:281
+msgid "Error: Avatar not saved."
 msgstr ""
 
-#: includes/bp-avatar-suggestions-admin.php:329
-msgid "To add an avatar, click on the &#39;Add an avatar&#39; button then in the thickbox window, upload your avatar. Once done, click on the insert into post button of the thickbox. The avatar will show at the left of the &#39;Add an avatar&#39; button. Finally, use the &#39;Save Settings&#39; button to update the avatar suggestions list."
+#: includes/bp-avatar-suggestions-front.php:282
+msgid "Success: Avatar removed."
 msgstr ""
 
-#: includes/bp-avatar-suggestions-admin.php:335
-msgid "Save Settings"
+#: includes/bp-avatar-suggestions-front.php:283
+msgid "Error: Avatar not removed."
 msgstr ""
 
-#: includes/bp-avatar-suggestions-front.php:119
-msgid "Bravo, i also like this one!"
+#: includes/bp-avatar-suggestions-front.php:332
+msgid "You can select one of the suggested avatars below"
 msgstr ""
 
-#: includes/bp-avatar-suggestions-front.php:121
-msgid "Avatar deleted."
+#: includes/bp-avatar-suggestions-front.php:333
+msgid "Click to add or remove the suggested avatar. If a suggestion is selected, you will need to remove it before choosing another one."
 msgstr ""
 
-#: includes/bp-avatar-suggestions-front.php:122
-msgid "Please select an avatar"
+#: includes/bp-avatar-suggestions-groups.php:51
+msgid "Photo"
 msgstr ""
 
-#: includes/bp-avatar-suggestions-front.php:123
-msgid "Or choose one of the suggested avatars below:"
+#: includes/bp-avatar-suggestions-list-table.php:115
+#: includes/bp-avatar-suggestions-list-table.php:332
+msgctxt "All avatar suggestions type"
+msgid "All"
 msgstr ""
 
-#: includes/bp-avatar-suggestions-front.php:124
-msgid "Activate selected"
+#: includes/bp-avatar-suggestions-list-table.php:125
+#: includes/bp-avatar-suggestions-list-table.php:334
+msgctxt "Users avatar suggestions type"
+msgid "Users"
 msgstr ""
 
-#: includes/bp-avatar-suggestions-front.php:125
-msgid "Deactivate selected"
+#: includes/bp-avatar-suggestions-list-table.php:136
+#: includes/bp-avatar-suggestions-list-table.php:336
+msgctxt "Groups avatar suggestions type"
+msgid "Groups"
 msgstr ""
 
-#: includes/bp-avatar-suggestions-front.php:127
-msgid "The selected avatar is already set as your avatar"
+#: includes/bp-avatar-suggestions-list-table.php:159
+#: includes/bp-avatar-suggestions-list-table.php:161
+msgid "Change avatar type to&hellip;"
 msgstr ""
 
-#: includes/bp-avatar-suggestions-front.php:128
-msgid "Deactivate is only applying for the active avatar"
+#: includes/bp-avatar-suggestions-list-table.php:162
+msgid "All"
 msgstr ""
 
-#: includes/bp-avatar-suggestions-front.php:129
-msgid "We were not able to achieve this action"
+#: includes/bp-avatar-suggestions-list-table.php:165
+msgid "Users"
+msgstr ""
+
+#: includes/bp-avatar-suggestions-list-table.php:169
+msgid "Groups"
+msgstr ""
+
+#: includes/bp-avatar-suggestions-list-table.php:174
+msgid "Change"
+msgstr ""
+
+#: includes/bp-avatar-suggestions-list-table.php:191
+msgid "File"
+msgstr ""
+
+#: includes/bp-avatar-suggestions-list-table.php:195
+msgid "Type"
+msgstr ""
+
+#: includes/bp-avatar-suggestions-list-table.php:210
+#: includes/bp-avatar-suggestions-list-table.php:315
+msgid "Delete"
+msgstr ""
+
+#: includes/bp-avatar-suggestions-list-table.php:222
+msgid "No avatar suggestions found."
+msgstr ""
+
+#: includes/bp-avatar-suggestions-list-table.php:265
+msgid "Select %s"
+msgstr ""
+
+#: includes/bp-avatar-suggestions-list-table.php:338
+msgid "Unknown"
 msgstr ""
 #. Plugin Name of the plugin/theme
 msgid "BP Avatar Suggestions"

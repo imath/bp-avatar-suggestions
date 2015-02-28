@@ -1,6 +1,15 @@
 <?php
+/**
+ * The Admin class.
+ *
+ * @package BP Avatar Suggestions
+ * @subpackage Admin
+ * @since   1.1.0
+ */
+
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
+
 /**
  * Load Admin class.
  *
