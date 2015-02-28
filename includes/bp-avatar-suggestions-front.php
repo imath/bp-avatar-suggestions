@@ -192,7 +192,7 @@ class Avatar_Suggestions_Front {
 			return $retval;
 		}
 
-		if ( bp_is_user_change_avatar() && $this->enable_users && 'crop-image' != bp_get_avatar_admin_step() && ! bp_get_user_has_avatar( bp_displayed_user_id() ) ) {
+		if ( bp_is_user_change_avatar() && $this->enable_users && 'crop-image' != bp_get_avatar_admin_step() ) {
 			$retval = true;
 		}
 
@@ -250,7 +250,7 @@ class Avatar_Suggestions_Front {
 		}
 
 		// manage
-		if ( bp_is_group_admin_page() && bp_is_group_admin_screen( $action ) && 'crop-image' != bp_get_avatar_admin_step() && ! bp_get_group_has_avatar() ) {
+		if ( bp_is_group_admin_page() && bp_is_group_admin_screen( $action ) && 'crop-image' != bp_get_avatar_admin_step() ) {
 			$retval = true;
 		}
 
@@ -272,6 +272,11 @@ class Avatar_Suggestions_Front {
 
 		// Bail if we're not on the change-avatar page
 		if ( ! $this->is_user_set_avatar() && ! $this->is_group_create_avatar() && ! $this->is_group_manage_avatar() ) {
+			return;
+		}
+
+		// Bail if the user or the group already has an avatar
+		if ( ( bp_is_user() && bp_get_user_has_avatar( bp_displayed_user_id() ) ) || ( bp_is_group() && bp_get_group_has_avatar() ) ) {
 			return;
 		}
 
@@ -323,6 +328,11 @@ class Avatar_Suggestions_Front {
 
 		// Bail if we're not on the change-avatar page
 		if ( ! $this->is_user_set_avatar() && ! $this->is_group_create_avatar() && ! $this->is_group_manage_avatar() ) {
+			return;
+		}
+
+		// Bail if the user or the group already has an avatar
+		if ( ( bp_is_user() && bp_get_user_has_avatar( bp_displayed_user_id() ) ) || ( bp_is_group() && bp_get_group_has_avatar() ) ) {
 			return;
 		}
 
