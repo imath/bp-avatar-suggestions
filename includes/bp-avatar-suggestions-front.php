@@ -65,7 +65,7 @@ class Avatar_Suggestions_Front {
 		$this->avatar_post_id = $bp->extend->avatar_suggestions->avatar_post_id;
 		$this->enable_users   = $bp->extend->avatar_suggestions->enable_users;
 		$this->enable_groups  = $bp->extend->avatar_suggestions->enable_groups;
-		$this->min            = SCRIPT_DEBUG ? '' : '.min';
+		$this->min            = ( defined( 'SCRIPT_DEBUG' ) && true == SCRIPT_DEBUG ) ? '' : '.min';
 	}
 
 	/**
