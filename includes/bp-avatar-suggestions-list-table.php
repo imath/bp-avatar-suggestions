@@ -262,7 +262,7 @@ class BP_Avatar_Suggestions_List_Table extends WP_List_Table {
 	 */
 	public function column_cb( $suggestion_object = null ) {
 	?>
-		<label class="screen-reader-text" for="suggestion_<?php echo intval( $suggestion_object->ID ); ?>"><?php printf( esc_html__( 'Select %s', 'buddypress' ), $suggestion_object->post_title ); ?></label>
+		<label class="screen-reader-text" for="suggestion_<?php echo intval( $suggestion_object->ID ); ?>"><?php printf( esc_html__( 'Select %s', 'bp-avatar-suggestions' ), $suggestion_object->post_title ); ?></label>
 		<input type="checkbox" id="suggestion_<?php echo intval( $suggestion_object->ID ) ?>" name="allsuggestions[]" value="<?php echo esc_attr( $suggestion_object->ID ) ?>" />
 		<?php
 	}

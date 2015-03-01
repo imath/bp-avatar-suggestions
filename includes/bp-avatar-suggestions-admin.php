@@ -165,11 +165,13 @@ class Avatar_Suggestions_Admin {
 
 			if ( version_compare( $db_version, '1.2-alpha', '<' ) ) {
 
-				$this->avatar_post_id = wp_insert_post( array(
-					'post_title'   => __( 'BP Avatar Suggestions required post (do not edit or delete)' ),
-					'post_name'    => 'bp-avatar-suggestions',
-					'post_status'  => 'draft',
-				) );
+				if ( empty( $this->avatar_post_id ) ) {
+					$this->avatar_post_id = wp_insert_post( array(
+						'post_title'   => __( 'BP Avatar Suggestions required post (do not edit or delete)', 'bp-avatar-suggestions' ),
+						'post_name'    => 'bp-avatar-suggestions',
+						'post_status'  => 'draft',
+					) );
+				}
 
 				// Set the post id to attach the avatar suggestions to.
 				bp_update_option( 'bp_avatar_suggestions_post_id', $this->avatar_post_id );
@@ -180,6 +182,7 @@ class Avatar_Suggestions_Admin {
 				// Loop attachments to set their parent
 				foreach ( $attachment_ids as $attachment_id ) {
 					wp_update_post( array( 'ID' => $attachment_id, 'post_parent' => $this->avatar_post_id ) );
+					update_post_meta( $attachment_id, '_bpas_avatar_type', 1 );
 				}
 
 				// Remove an option not used anymore
@@ -371,6 +374,32 @@ class Avatar_Suggestions_Admin {
 
 		// per_page screen option
 		add_screen_option( 'per_page', array( 'label' => _x( 'Suggestions', 'Suggestions per page (screen options)', 'bp-avatar-suggestions' ) ) );
+
+		// Set help tabs
+		get_current_screen()->add_help_tab( array(
+			'id'      => 'bp-avatar-suggestions-overview',
+			'title'   => __( 'Overview', 'bp-avatar-suggestions' ),
+			'content' =>
+			'<p>' . __( 'This is the administration screen for avatar suggestions.', 'bp-avatar-suggestions' ) . '</p>' .
+			'<p>' . __( 'From the screen options, you can customize the displayed columns and the pagination of this screen.', 'bp-avatar-suggestions' ) . '</p>' .
+			'<p>' . __( 'You can add a new suggestion by clicking on the &quot;Add new&quot; button to open the uploader window.', 'bp-avatar-suggestions' ) . '&nbsp;' .
+			__( ' Send your image files from this window and once every image has been uploaded, simply close the uploader window to refresh the list of suggestions.', 'bp-avatar-suggestions' ) . '</p>'
+		) );
+
+		get_current_screen()->add_help_tab( array(
+			'id'      => 'bp-avatar-suggestions-actions',
+			'title'   => __( 'Actions', 'bp-avatar-suggestions' ),
+			'content' =>
+			'<p>' . __( 'Hovering over a row in the suggestions list will display the delete link to eventually remove an avatar.', 'bp-avatar-suggestions' ) . '</p>' .
+			'<p>' . __( 'If you need to remove more than one avatar, you can use the Delete Bulk action.', 'bp-avatar-suggestions' ) . '</p>' .
+			'<p>' . __( 'To change the avatar type, activate the corresponding checkboxes and use the &quot;Change avatar type&quot; dropdown to select the type before clicking on the &quot;Change&quot; button.', 'bp-avatar-suggestions' ) . '</p>'
+		) );
+
+		// Help panel - sidebar links
+		get_current_screen()->set_help_sidebar(
+			'<p><strong>' . __( 'For more information:', 'bp-avatar-suggestions' ) . '</strong></p>' .
+			'<p>' . __( '<a href="https://wordpress.org/support/plugin/bp-avatar-suggestions">Support Forums</a>', 'bp-avatar-suggestions' ) . '</p>'
+		);
 	}
 
 	/**
@@ -473,7 +502,7 @@ class Avatar_Suggestions_Admin {
 
 			<h3><?php _e( 'Suggestions', 'bp-avatar-suggestions' ); ?>
 
-				<?php if ( bp_current_user_can( 'upload' ) ) : ?>
+				<?php if ( bp_current_user_can( 'upload_files' ) ) : ?>
 
 					<a href="<?php echo esc_url( admin_url( 'media-upload.php' ) );?>" class="avatar_upload_image_button add-new-h2"><?php echo esc_html_x( 'Add New', 'Avatar suggestions add button', 'bp-avatar-suggestions' ); ?></a>
 

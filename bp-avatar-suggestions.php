@@ -99,7 +99,7 @@ class Avatar_Suggestions {
 	private function setup_globals() {
 
 		/** Versions & domain ***********************************/
-		$this->version       = '1.2-alpha';
+		$this->version       = '1.2-beta';
 		$this->domain        = 'bp-avatar-suggestions';
 
 		/** Paths ***********************************************/
@@ -203,7 +203,7 @@ class Avatar_Suggestions {
 
 		if ( bp_is_active( 'groups' ) ) {
 			// Delete all user metas having the $avatar_url
-			delete_metadata( 'group', false, 'group_avatar_choice', $avatar_url[0], true );
+			groups_delete_groupmeta( false, 'group_avatar_choice', $avatar_url[0], true );
 		}
 	}
 

@@ -188,11 +188,11 @@ class Avatar_Suggestions_Front {
 	public function is_user_set_avatar() {
 		$retval = false;
 
-		if ( empty( $this->enable_users ) || ! bp_is_user() ) {
+		if ( empty( $this->enable_users ) || ! bp_is_user() || 'crop-image' == bp_get_avatar_admin_step() ) {
 			return $retval;
 		}
 
-		if ( bp_is_user_change_avatar() && $this->enable_users && 'crop-image' != bp_get_avatar_admin_step() ) {
+		if ( bp_is_user_change_avatar() && $this->enable_users ) {
 			$retval = true;
 		}
 
@@ -211,7 +211,7 @@ class Avatar_Suggestions_Front {
 	public function is_group_create_avatar() {
 		$retval = false;
 
-		if ( empty( $this->enable_groups ) ) {
+		if ( empty( $this->enable_groups ) || 'crop-image' == bp_get_avatar_admin_step() ) {
 			return $retval;
 		}
 
@@ -221,7 +221,7 @@ class Avatar_Suggestions_Front {
 		}
 
 		// create
-		if ( bp_is_group_create() && bp_is_group_creation_step( $action ) && 'crop-image' != bp_get_avatar_admin_step() ) {
+		if ( bp_is_group_create() && bp_is_group_creation_step( $action ) ) {
 			$retval = true;
 		}
 
@@ -240,7 +240,7 @@ class Avatar_Suggestions_Front {
 	public function is_group_manage_avatar() {
 		$retval = false;
 
-		if ( empty( $this->enable_groups ) ) {
+		if ( empty( $this->enable_groups ) || 'crop-image' == bp_get_avatar_admin_step() ) {
 			return $retval;
 		}
 
@@ -250,7 +250,7 @@ class Avatar_Suggestions_Front {
 		}
 
 		// manage
-		if ( bp_is_group_admin_page() && bp_is_group_admin_screen( $action ) && 'crop-image' != bp_get_avatar_admin_step() ) {
+		if ( bp_is_group_admin_page() && bp_is_group_admin_screen( $action ) ) {
 			$retval = true;
 		}
 
@@ -459,38 +459,39 @@ class Avatar_Suggestions_Front {
 
 		switch( $params['object'] ) {
 			case 'group' :
-			if ( ! bp_get_group_has_avatar( $item_id ) ) {
+				if ( ! bp_get_group_has_avatar( $item_id ) ) {
 
-				$group_choice = groups_get_groupmeta( $item_id, 'group_avatar_choice', true );
+					$group_choice = groups_get_groupmeta( $item_id, 'group_avatar_choice', true );
 
-				if ( empty( $group_choice ) ) {
-					return $image;
+					if ( empty( $group_choice ) ) {
+						return $image;
+					}
+
+					if ( ! empty( $params['html'] ) ){
+						$image = preg_replace('/src="([^"]*)"/i', 'src="' . $group_choice . '"', $image );
+					} else {
+						$image = $group_choice;
+					}
 				}
-
-				if ( ! empty( $params['html'] ) ){
-					$image = preg_replace('/src="([^"]*)"/i', 'src="' . $group_choice . '"', $image );
-				} else {
-					$image = $group_choice;
-				}
-
-			}
+				break;
 
 			case 'user' :
-			if ( ! bp_get_user_has_avatar( $item_id ) ) {
+				if ( ! bp_get_user_has_avatar( $item_id ) ) {
 
-				$user_choice = get_user_meta( $item_id, 'user_avatar_choice', true );
+					$user_choice = get_user_meta( $item_id, 'user_avatar_choice', true );
 
-				if ( empty( $user_choice ) ) {
-					return $image;
+					if ( empty( $user_choice ) ) {
+						return $image;
+					}
+
+					if ( ! empty( $params['html'] ) ){
+						$image = preg_replace('/src="([^"]*)"/i', 'src="' . $user_choice . '"', $image );
+					} else {
+						$image = $user_choice;
+					}
+
 				}
-
-				if ( ! empty( $params['html'] ) ){
-					$image = preg_replace('/src="([^"]*)"/i', 'src="' . $user_choice . '"', $image );
-				} else {
-					$image = $user_choice;
-				}
-
-			}
+				break;
 		}
 
 		/* in case you need to filter with your own function... */

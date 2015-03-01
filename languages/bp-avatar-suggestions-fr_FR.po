@@ -3,16 +3,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: BP Avatar Suggestions 1.0\n"
-"Report-Msgid-Bugs-To: http://wordpress.org/tag/bp-avatar-suggestions\n"
-"POT-Creation-Date: 2015-02-28 15:24:03+00:00\n"
-"PO-Revision-Date: 2015-02-28 16:34+0100\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/support/plugin/bp-avatar-suggestions\n"
+"POT-Creation-Date: 2015-03-01 14:39:13+00:00\n"
+"PO-Revision-Date: 2015-03-01 15:46+0100\n"
 "Last-Translator: imath <mathchristo@yahoo.fr>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.7.1\n"
+"X-Generator: Poedit 1.7.4\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: bp-avatar-suggestions.php:247
@@ -24,77 +24,150 @@ msgid "%s and BuddyPress need to share the same network configuration."
 msgstr "%s a besoin de partager la même configuration réseau que BuddyPress."
 
 #: includes/bp-avatar-suggestions-admin.php:139
-#: includes/bp-avatar-suggestions-admin.php:423
-#: includes/bp-avatar-suggestions-admin.php:466
+#: includes/bp-avatar-suggestions-admin.php:452
+#: includes/bp-avatar-suggestions-admin.php:495
 msgid "Avatar Suggestions"
 msgstr "Suggestions d&#39;Avatars"
 
-#: includes/bp-avatar-suggestions-admin.php:169
+#: includes/bp-avatar-suggestions-admin.php:170
 msgid "BP Avatar Suggestions required post (do not edit or delete)"
 msgstr "Article requis par BP Avatar Suggestions (ne pas modifier ou supprimer)"
 
-#: includes/bp-avatar-suggestions-admin.php:209
+#: includes/bp-avatar-suggestions-admin.php:212
 msgid "Enable suggestions for users"
 msgstr "Activer les suggestions pour les utilisateurs"
 
-#: includes/bp-avatar-suggestions-admin.php:223
+#: includes/bp-avatar-suggestions-admin.php:226
 msgid "Enable suggestions for groups"
 msgstr "Activer les suggestions pour les groupes"
 
-#: includes/bp-avatar-suggestions-admin.php:268
-#: includes/bp-avatar-suggestions-admin.php:269
+#: includes/bp-avatar-suggestions-admin.php:271
+#: includes/bp-avatar-suggestions-admin.php:272
 msgid "Avatar Suggestions Settings"
 msgstr "Réglages Suggestions Avatar"
 
-#: includes/bp-avatar-suggestions-admin.php:373
+#: includes/bp-avatar-suggestions-admin.php:376
 msgctxt "Suggestions per page (screen options)"
 msgid "Suggestions"
 msgstr "Suggestions"
 
-#: includes/bp-avatar-suggestions-admin.php:449
+#: includes/bp-avatar-suggestions-admin.php:381
+msgid "Overview"
+msgstr "Vue d&#39;ensemble"
+
+#: includes/bp-avatar-suggestions-admin.php:383
+msgid "This is the administration screen for avatar suggestions."
+msgstr "Voici l&#39;écran d&#39;administration des suggestions d&#39;avatar"
+
+#: includes/bp-avatar-suggestions-admin.php:384
+msgid ""
+"From the screen options, you can customize the displayed columns and the pagination "
+"of this screen."
+msgstr ""
+"Depuis les options d&#39;écran, vous pouvez personnaliser les colonnes affichées et "
+"la pagination de cet écran."
+
+#: includes/bp-avatar-suggestions-admin.php:385
+msgid ""
+"You can add a new suggestion by clicking on the &quot;Add new&quot; button to open "
+"the uploader window."
+msgstr ""
+"Vous pouvez ajouter une nouvelle suggestion en cliquant sur le bouton &quot;Ajouter "
+"nouvelle&quot; pour ouvrir la fenêtre d&#39;upload."
+
+#: includes/bp-avatar-suggestions-admin.php:386
+msgid ""
+" Send your image files from this window and once every image has been uploaded, "
+"simply close the uploader window to refresh the list of suggestions."
+msgstr ""
+" Envoyer vos fichier image depuis cette fenêtre et une fois que chacune des images a "
+"été transmise, fermer la fenêtre d&#39;upload pour rafraîchir la liste des "
+"suggestions."
+
+#: includes/bp-avatar-suggestions-admin.php:391
+msgid "Actions"
+msgstr "Actions"
+
+#: includes/bp-avatar-suggestions-admin.php:393
+msgid ""
+"Hovering over a row in the suggestions list will display the delete link to "
+"eventually remove an avatar."
+msgstr ""
+"Survoler une ligne de la liste des suggestions affichera le lien de suppression pour "
+"vous permettre d&#39;éventuellement retirer une suggestion."
+
+#: includes/bp-avatar-suggestions-admin.php:394
+msgid "If you need to remove more than one avatar, you can use the Delete Bulk action."
+msgstr ""
+"Si vous avez besoin de retirer plus d&#39;une suggestion, vous pouvez utiliser l&#39;"
+"action de masse de suppression."
+
+#: includes/bp-avatar-suggestions-admin.php:395
+msgid ""
+"To change the avatar type, activate the corresponding checkboxes and use the &quot;"
+"Change avatar type&quot; dropdown to select the type before clicking on the &quot;"
+"Change&quot; button."
+msgstr ""
+"Pour changer le type d&#39;avatar, activez les cases à cocher correspondantes et "
+"utilisez la liste déroulante &quot;Changer le type d&#39;avatar&quot; pour "
+"sélectionner le type avant de cliquer sur le bouton &quot;Changer&quot;"
+
+#: includes/bp-avatar-suggestions-admin.php:400
+msgid "For more information:"
+msgstr "Pour plus d&#39;informations:"
+
+#: includes/bp-avatar-suggestions-admin.php:401
+msgid ""
+"<a href=\"https://wordpress.org/support/plugin/bp-avatar-suggestions\">Support "
+"Forums</a>"
+msgstr ""
+"<a href=\"https://wordpress.org/support/plugin/bp-avatar-suggestions\">Forum "
+"Support</a>"
+
+#: includes/bp-avatar-suggestions-admin.php:478
 msgctxt "suggestion deleted"
 msgid "%s suggestion was deleted."
 msgid_plural "%s suggestions were deleted."
 msgstr[0] "%s suggestion a été supprimée."
 msgstr[1] "%s suggestions ont été supprimées."
 
-#: includes/bp-avatar-suggestions-admin.php:456
+#: includes/bp-avatar-suggestions-admin.php:485
 msgctxt "suggestion type edited"
 msgid "%s suggestion had their type changed."
 msgid_plural "%s suggestions had their type changed."
 msgstr[0] "%s suggestion a vu son type changé."
 msgstr[1] "%s suggestions ont vu leurs types changés."
 
-#: includes/bp-avatar-suggestions-admin.php:474
+#: includes/bp-avatar-suggestions-admin.php:503
 msgid "Suggestions"
 msgstr "Suggestions"
 
-#: includes/bp-avatar-suggestions-admin.php:478
+#: includes/bp-avatar-suggestions-admin.php:507
 msgctxt "Avatar suggestions add button"
 msgid "Add New"
 msgstr "Ajouter Nouvelle"
 
-#: includes/bp-avatar-suggestions-front.php:280
+#: includes/bp-avatar-suggestions-front.php:285
 msgid "Success: Avatar saved."
 msgstr "Succès: l&#39;avatar a été modifié."
 
-#: includes/bp-avatar-suggestions-front.php:281
+#: includes/bp-avatar-suggestions-front.php:286
 msgid "Error: Avatar not saved."
 msgstr "Erreur: l&#39;avatar n&#39;a pas été modifié."
 
-#: includes/bp-avatar-suggestions-front.php:282
+#: includes/bp-avatar-suggestions-front.php:287
 msgid "Success: Avatar removed."
 msgstr "Succès: l&#39;avatar a été supprimé."
 
-#: includes/bp-avatar-suggestions-front.php:283
+#: includes/bp-avatar-suggestions-front.php:288
 msgid "Error: Avatar not removed."
 msgstr "Erreur: l&#39;avatar n&#39;a pas été supprimé."
 
-#: includes/bp-avatar-suggestions-front.php:332
+#: includes/bp-avatar-suggestions-front.php:342
 msgid "You can select one of the suggested avatars below"
 msgstr "Vous pouvez choisir parmi les avatars suggérés ci-dessous"
 
-#: includes/bp-avatar-suggestions-front.php:333
+#: includes/bp-avatar-suggestions-front.php:343
 msgid ""
 "Click to add or remove the suggested avatar. If a suggestion is selected, you will "
 "need to remove it before choosing another one."
@@ -202,9 +275,6 @@ msgstr "http://imathi.eu/"
 
 #~ msgid "Avatars"
 #~ msgstr "Avatars"
-
-#~ msgid "Actions"
-#~ msgstr "Actions"
 
 #~ msgid "Delete this avatar"
 #~ msgstr "Supprimer cet avatar"

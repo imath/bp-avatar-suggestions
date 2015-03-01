@@ -1,3 +1,7 @@
+#group-create-body .main-column #avatar-suggestions-selector {
+	float:left;
+}
+
 #avatar-suggestions-selector .avatar-suggestions-list ul.avatar-suggestions {
 	list-style:none;
 	clear:both;
