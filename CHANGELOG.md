@@ -1,6 +1,17 @@
 Versions
 ========
 
+1.2
+---
+
++ requires WordPress 4.1.
++ requires BuddyPress 2.2.
++ Uses a draft post to attach the avatar to.
++ Improves the interface so that it is now possible to bulk upload and delete avatar suggestions.
++ Improves the Avatar suggestions "selector", so that it can be used even if BuddyPress user uploads are disabled.
++ Adds support for Groups avatar suggestions.
+
+
 1.1
 ---
 
@@ -10,7 +21,7 @@ Versions
 1.1-beta2
 ---------
 
-+ adds a filter to the avatar lists just before displaying it to the user 
++ adds a filter to the avatar lists just before displaying it to the user
 + example of use : `add_filter( 'bp_as_filter_avatar_list', 'filter_list_by_xprofile_gender', 10, 1 );`
 
 
