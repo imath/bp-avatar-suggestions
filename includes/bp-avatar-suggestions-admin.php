@@ -163,7 +163,7 @@ class Avatar_Suggestions_Admin {
 
 		if ( version_compare( $db_version, $version, '<' ) ) {
 
-			if ( version_compare( $db_version, '1.2-alpha', '<' ) ) {
+			if ( version_compare( $db_version, '1.2.0', '<' ) ) {
 
 				if ( empty( $this->avatar_post_id ) ) {
 					$this->avatar_post_id = wp_insert_post( array(
