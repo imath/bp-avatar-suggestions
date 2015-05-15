@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the BP Avatar Suggestions package.
 msgid ""
 msgstr ""
-"Project-Id-Version: BP Avatar Suggestions 1.2-beta\n"
+"Project-Id-Version: BP Avatar Suggestions 1.2.1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/support/plugin/bp-avatar-suggestions\n"
-"POT-Creation-Date: 2015-03-01 14:39:13+00:00\n"
+"POT-Creation-Date: 2015-05-15 22:02:46+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -115,27 +115,39 @@ msgctxt "Avatar suggestions add button"
 msgid "Add New"
 msgstr ""
 
-#: includes/bp-avatar-suggestions-front.php:285
+#: includes/bp-avatar-suggestions-admin.php:591
+msgid "Make sure to upload images having dimensions > %dx%dpx."
+msgstr ""
+
+#: includes/bp-avatar-suggestions-front.php:294
 msgid "Success: Avatar saved."
 msgstr ""
 
-#: includes/bp-avatar-suggestions-front.php:286
+#: includes/bp-avatar-suggestions-front.php:295
 msgid "Error: Avatar not saved."
 msgstr ""
 
-#: includes/bp-avatar-suggestions-front.php:287
+#: includes/bp-avatar-suggestions-front.php:296
 msgid "Success: Avatar removed."
 msgstr ""
 
-#: includes/bp-avatar-suggestions-front.php:288
+#: includes/bp-avatar-suggestions-front.php:297
 msgid "Error: Avatar not removed."
 msgstr ""
 
-#: includes/bp-avatar-suggestions-front.php:342
+#: includes/bp-avatar-suggestions-front.php:298
+msgid "Please wait, requesting available suggestions."
+msgstr ""
+
+#: includes/bp-avatar-suggestions-front.php:299
+msgid "There was a problem while requesting suggestions."
+msgstr ""
+
+#: includes/bp-avatar-suggestions-front.php:353
 msgid "You can select one of the suggested avatars below"
 msgstr ""
 
-#: includes/bp-avatar-suggestions-front.php:343
+#: includes/bp-avatar-suggestions-front.php:354
 msgid "Click to add or remove the suggested avatar. If a suggestion is selected, you will need to remove it before choosing another one."
 msgstr ""
 

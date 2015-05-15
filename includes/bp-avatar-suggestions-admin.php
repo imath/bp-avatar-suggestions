@@ -533,6 +533,7 @@ class Avatar_Suggestions_Admin {
 
 		add_filter( 'media_upload_tabs', array( $this, 'media_upload_tabs' ), 10, 1 );
 		add_action( 'admin_head_media_upload_type_form', array( $this, 'media_upload_header' ) );
+		add_action( 'post-upload-ui', array( $this, 'warning_dimensions' ) );
 	}
 
 	/**
@@ -571,6 +572,29 @@ class Avatar_Suggestions_Admin {
 		</style>
 		<?php
 	}
+
+	/**
+	 * Display a warning to inform about minimal dimensions
+	 *
+	 * @package BP Avatar Suggestions
+	 * @subpackage Admin
+	 * @since   1.2.1
+	 */
+	public function warning_dimensions() {
+		/**
+		 * @todo  We will need to use bp_core_avatar_full_width() & bp_core_avatar_full_height()
+		 *        as soon as BuddyPress 2.3.0 will be released
+		 */
+		?>
+		<p class="wp-ui-text-notification">
+			<?php printf(
+				esc_html__( 'Make sure to upload images having dimensions > %dx%dpx.' ),
+				get_option( 'thumbnail_size_w', 150 ),
+				get_option( 'thumbnail_size_h', 150 )
+			); ?>
+		</p>
+		<?php
+ 	}
 }
 
 /**

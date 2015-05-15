@@ -24,3 +24,23 @@
 #avatar-suggestions-selector .avatar-suggestions-list ul.avatar-suggestions li.selected img.avatar {
 	border:solid 5px #0073aa;
 }
+
+#bp-as-warning {
+	clear:both;
+	display: block;
+	font-size: 90%;
+	margin: 1em 0;
+	padding: 10px 15px;
+}
+
+#bp-as-warning.warning {
+	background-color: #ffd;
+	border: 1px solid #cb2;
+	color: #440;
+}
+
+#bp-as-warning.error {
+	background-color: #fdc;
+	border: 1px solid #a00;
+	color: #800;
+}

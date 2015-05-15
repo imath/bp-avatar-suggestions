@@ -3,8 +3,8 @@ Contributors: imath
 Donate link: http://imathi.eu/donations/
 Tags: BuddyPress, avatar
 Requires at least: 4.1
-Tested up to: 4.1.1
-Stable tag: 1.2.0
+Tested up to: 4.2.2
+Stable tag: 1.2.1
 License: GPLv2
 
 Avatar suggestions for the members and the groups of your BuddyPress powered community.
@@ -39,6 +39,11 @@ Please add an issue <a href="https://github.com/imath/bp-avatar-suggestions/issu
 
 == Changelog ==
 
+= 1.2.1 =
+* fixes a bug when the suggestion is set, props: lenasterg, pixie2012, lionel.
+* Make sure javascript is only loaded in the user's change profile photo screen, props: lenasterg.
+* improves the user feedback.
+
 = 1.2.0 =
 * requires WordPress 4.1.
 * requires BuddyPress 2.2.
@@ -54,6 +59,10 @@ Please add an issue <a href="https://github.com/imath/bp-avatar-suggestions/issu
 * Plugin birth..
 
 == Upgrade Notice ==
+
+= 1.2.1 =
+* Requires BuddyPress 2.2
+* Please make sure to backup your database before upgrading the plugin.
 
 = 1.2.0 =
 * Requires BuddyPress 2.2

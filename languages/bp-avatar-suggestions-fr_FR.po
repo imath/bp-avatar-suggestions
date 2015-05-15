@@ -4,15 +4,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BP Avatar Suggestions 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/support/plugin/bp-avatar-suggestions\n"
-"POT-Creation-Date: 2015-03-01 14:39:13+00:00\n"
-"PO-Revision-Date: 2015-03-01 15:46+0100\n"
+"POT-Creation-Date: 2015-05-15 22:02:46+00:00\n"
+"PO-Revision-Date: 2015-05-16 00:04+0100\n"
 "Last-Translator: imath <mathchristo@yahoo.fr>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.7.4\n"
+"X-Generator: Poedit 1.7.1\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: bp-avatar-suggestions.php:247
@@ -147,27 +147,39 @@ msgctxt "Avatar suggestions add button"
 msgid "Add New"
 msgstr "Ajouter Nouvelle"
 
-#: includes/bp-avatar-suggestions-front.php:285
+#: includes/bp-avatar-suggestions-admin.php:591
+msgid "Make sure to upload images having dimensions > %dx%dpx."
+msgstr "Assurez vous de télécharger des images ayant des dimensions > %dx%dpx."
+
+#: includes/bp-avatar-suggestions-front.php:294
 msgid "Success: Avatar saved."
 msgstr "Succès: l&#39;avatar a été modifié."
 
-#: includes/bp-avatar-suggestions-front.php:286
+#: includes/bp-avatar-suggestions-front.php:295
 msgid "Error: Avatar not saved."
 msgstr "Erreur: l&#39;avatar n&#39;a pas été modifié."
 
-#: includes/bp-avatar-suggestions-front.php:287
+#: includes/bp-avatar-suggestions-front.php:296
 msgid "Success: Avatar removed."
 msgstr "Succès: l&#39;avatar a été supprimé."
 
-#: includes/bp-avatar-suggestions-front.php:288
+#: includes/bp-avatar-suggestions-front.php:297
 msgid "Error: Avatar not removed."
 msgstr "Erreur: l&#39;avatar n&#39;a pas été supprimé."
 
-#: includes/bp-avatar-suggestions-front.php:342
+#: includes/bp-avatar-suggestions-front.php:298
+msgid "Please wait, requesting available suggestions."
+msgstr "Chargement des suggestions, merci de patienter."
+
+#: includes/bp-avatar-suggestions-front.php:299
+msgid "There was a problem while requesting suggestions."
+msgstr "Un problème est survenu pendant le chargement des suggestions."
+
+#: includes/bp-avatar-suggestions-front.php:353
 msgid "You can select one of the suggested avatars below"
 msgstr "Vous pouvez choisir parmi les avatars suggérés ci-dessous"
 
-#: includes/bp-avatar-suggestions-front.php:343
+#: includes/bp-avatar-suggestions-front.php:354
 msgid ""
 "Click to add or remove the suggested avatar. If a suggestion is selected, you will "
 "need to remove it before choosing another one."

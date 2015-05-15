@@ -161,19 +161,28 @@ class Avatar_Suggestions_Front {
 				$current_item_avatar = bp_get_user_meta( $item_id, 'user_avatar_choice', true );
 			}
 
-			// Set the current user's avatar as selected
-			if ( ! empty( $current_item_avatar ) ) {
-				foreach ( $suggestions as $key => $suggestion ) {
-					if ( $current_item_avatar == $suggestion['sizes']['thumbnail']['url'] ) {
-						$suggestions[ $key ]['selected'] = 1;
-					}
+			foreach ( $suggestions as $key => $suggestion ) {
+				// If no thumbnail url, skip the suggestion
+				if ( empty( $suggestion['sizes']['thumbnail']['url'] ) ) {
+					unset( $suggestions[ $key ] );
+					continue;
+				}
+
+				// Set the current user's avatar as selected
+				if ( ! empty( $current_item_avatar ) && $current_item_avatar == $suggestion['sizes']['thumbnail']['url'] ) {
+					$suggestions[ $key ]['selected'] = 1;
 				}
 			}
+		} else {
+			wp_send_json_error();
 		}
 
-		$suggestions = array_filter( $suggestions );
+		if ( empty( $suggestions ) ) {
+			wp_send_json_error();
+		}
 
-		wp_send_json_success( $suggestions );
+		// Send the successful response
+		wp_send_json_success( array_filter( $suggestions ) );
 	}
 
 	/**
@@ -196,7 +205,7 @@ class Avatar_Suggestions_Front {
 			$retval = true;
 		}
 
-		return true;
+		return $retval;
 	}
 
 	/**
@@ -281,12 +290,14 @@ class Avatar_Suggestions_Front {
 		}
 
 		$suggestions_settings = array(
-			'nonce'               => wp_create_nonce( 'avatar_suggestions_selector' ),
-			'avatarSaved'         => esc_html__( 'Success: Avatar saved.', 'bp-avatar-suggestions' ),
-			'avatarNotSaved'      => esc_html__( 'Error: Avatar not saved.', 'bp-avatar-suggestions' ),
-			'avatarRemoved'       => esc_html__( 'Success: Avatar removed.', 'bp-avatar-suggestions' ),
-			'avatarNotRemoved'    => esc_html__( 'Error: Avatar not removed.', 'bp-avatar-suggestions' ),
-			'groupCreateContext'  => $this->is_group_create_avatar(),
+			'nonce'              => wp_create_nonce( 'avatar_suggestions_selector' ),
+			'avatarSaved'        => esc_html__( 'Success: Avatar saved.', 'bp-avatar-suggestions' ),
+			'avatarNotSaved'     => esc_html__( 'Error: Avatar not saved.', 'bp-avatar-suggestions' ),
+			'avatarRemoved'      => esc_html__( 'Success: Avatar removed.', 'bp-avatar-suggestions' ),
+			'avatarNotRemoved'   => esc_html__( 'Error: Avatar not removed.', 'bp-avatar-suggestions' ),
+			'fetching'           => esc_html__( 'Please wait, requesting available suggestions.', 'bp-avatar-suggestions' ),
+			'fetchingFailed'     => esc_html__( 'There was a problem while requesting suggestions.', 'bp-avatar-suggestions' ),
+			'groupCreateContext' => $this->is_group_create_avatar(),
 		);
 
 		if ( bp_is_user() ) {
@@ -414,12 +425,12 @@ class Avatar_Suggestions_Front {
 
 		$this->avatar_removed = true;
 
-		$avatar_url = bp_core_fetch_avatar( array(
+		$avatar_url = html_entity_decode( bp_core_fetch_avatar( array(
 			'item_id' => $_POST['item_id'],
 			'object'  => $_POST['item_object'],
 			'type'    => 'full',
 			'html'    => false,
-		) );
+		) ) );
 
 		$this->avatar_removed = false;
 

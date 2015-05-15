@@ -1,6 +1,13 @@
 Versions
 ========
 
+1.2.1
+-----
+
++ fixes a bug when the suggestion is set, props: lenasterg, pixie2012, lionel.
++ Make sure javascript is only loaded in the user's change profile photo screen, props: lenasterg.
++ improves the user feedback.
+
 1.2
 ---
 
