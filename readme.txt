@@ -39,6 +39,13 @@ Please add an issue <a href="https://github.com/imath/bp-avatar-suggestions/issu
 
 == Changelog ==
 
+= 1.3.0 =
+* requires WordPress 4.2.
+* requires BuddyPress 2.3.
+* Uses the new BuddyPress Avatar UI by adding a new tav for suggestions.
+* Adds its own image size to match avatar full dimensions (these can > 150x150)
+* Uses the BuddyPress attachments API to improve the upload process and user feedbacks
+
 = 1.2.1 =
 * fixes a bug when the suggestion is set, props: lenasterg, pixie2012, lionel.
 * Make sure javascript is only loaded in the user's change profile photo screen, props: lenasterg.
@@ -59,6 +66,10 @@ Please add an issue <a href="https://github.com/imath/bp-avatar-suggestions/issu
 * Plugin birth..
 
 == Upgrade Notice ==
+
+= 1.3.0 =
+* Requires BuddyPress 2.3
+* Please make sure to backup your database before upgrading the plugin.
 
 = 1.2.1 =
 * Requires BuddyPress 2.2

@@ -1,0 +1,31 @@
+body.settings_page_bp-avatar-suggestions #TB_ajaxContent {
+	width: 95%!important;
+	height: 95%!important;
+	margin:1em 0;
+}
+
+body.settings_page_bp-avatar-suggestions #TB_ajaxContent .bp-uploader-progress {
+	overflow: hidden;
+	clear:both;
+}
+
+body.settings_page_bp-avatar-suggestions #TB_ajaxContent .bp-uploader-progress .filename {
+	height: 22px;
+	line-height: 22px;
+	font-weight: bold;
+	margin-top: 6px;
+	float:left;
+}
+
+body.settings_page_bp-avatar-suggestions #TB_ajaxContent .bp-uploader-progress .filename img {
+	vertical-align: middle;
+	height:22px;
+}
+
+body.settings_page_bp-avatar-suggestions #TB_ajaxContent p.updated,
+body.settings_page_bp-avatar-suggestions #TB_ajaxContent p.warning,
+body.settings_page_bp-avatar-suggestions #TB_ajaxContent p.updated,
+body.settings_page_bp-avatar-suggestions #TB_ajaxContent p.warning {
+	display: block;
+	padding: 10px 15px;
+}

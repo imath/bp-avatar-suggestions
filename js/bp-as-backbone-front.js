@@ -11,7 +11,6 @@ window.wp = window.wp || {};
 			this.displayInfo();
 			this.suggestions = new this.Collections.Suggestions();
 			this.suggestions.fetch( { error: this.displayError } );
-			this.previousAvatar = $( '#item-header-avatar img' ).prop( 'src' );
 			this.suggestions.on( 'add', this.inject, this );
 		},
 
@@ -59,9 +58,11 @@ window.wp = window.wp || {};
 		feedback: function( avatar, object, item_id, message, type ) {
 			var reverse, header;
 
-			$( '.' + object + '-' + item_id + '-avatar').each( function() {
-				$(this).prop( 'src', avatar );
-			} );
+			if ( avatar ) {
+				$( '.' + object + '-' + item_id + '-avatar').each( function() {
+					$(this).prop( 'src', avatar );
+				} );
+			}
 
 			reverse = ( type === 'updated' ) ? 'error' : 'updated';
 
@@ -141,10 +142,10 @@ window.wp = window.wp || {};
 				item_object: avatar_suggestions.vars.item_object,
 				avatar_url : avatar,
 				nonce:       avatar_suggestions.vars.nonce
-			} ).done( function() {
+			} ).done( function( resp ) {
 				self.set( 'saving', 0 );
 				avatar_suggestions.feedback(
-					avatar,
+					resp.avatar,
 					avatar_suggestions.vars.item_object,
 					avatar_suggestions.vars.item_id,
 					avatar_suggestions.vars.avatarSaved,
@@ -153,7 +154,7 @@ window.wp = window.wp || {};
 			} ).fail( function() {
 				self.set( 'saving', 0 );
 				avatar_suggestions.feedback(
-					avatar_suggestions.previousAvatar,
+					false,
 					avatar_suggestions.vars.item_object,
 					avatar_suggestions.vars.item_id,
 					avatar_suggestions.vars.avatarNotSaved,
@@ -179,7 +180,7 @@ window.wp = window.wp || {};
 			} ).done( function( resp ) {
 				self.set( 'saving', 0 );
 				avatar_suggestions.feedback(
-					resp,
+					resp.avatar,
 					avatar_suggestions.vars.item_object,
 					avatar_suggestions.vars.item_id,
 					avatar_suggestions.vars.avatarRemoved,
@@ -188,7 +189,7 @@ window.wp = window.wp || {};
 			} ).fail( function() {
 				self.set( 'saving', 0 );
 				avatar_suggestions.feedback(
-					avatar,
+					false,
 					avatar_suggestions.vars.item_object,
 					avatar_suggestions.vars.item_id,
 					avatar_suggestions.vars.avatarNotRemoved,

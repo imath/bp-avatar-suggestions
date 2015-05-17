@@ -182,6 +182,23 @@ class Avatar_Suggestions_Group extends BP_Group_Extension {
 	 * @return boolean false
 	 */
 	public function widget_display() {}
+
+	/**
+	 * Show group avatars if suggestions are enabled
+	 *
+	 * @package BP Avatar Suggestions
+	 * @subpackage Groups
+	 * @since   1.3.0
+	 *
+	 * @return boolean false to enable avatars true otherwise
+	 */
+	public static function display_avatars( $disable = false ) {
+		if ( true === (bool) $disable ) {
+			$disable = ! buddypress()->extend->avatar_suggestions->enable_groups;
+		}
+
+		return $disable;
+	}
 }
 
 endif ;
@@ -200,10 +217,12 @@ function bp_avatar_suggestions_group() {
 	$bp = buddypress();
 
 	// Only to use when avatars are not completely
-	// disabled and BuddyPress user uploads are disabled
-	if( empty( $bp->avatar->show_avatars ) || empty( $bp->site_options['bp-disable-avatar-uploads'] ) ) {
-		return;
-	}
+	// disabled and BuddyPress group uploads are not disabled
+	if ( empty( $bp->avatar->show_avatars ) || ! bp_disable_group_avatar_uploads() ) {
+ 		return;
+	} elseif ( ! is_admin() && ( empty( $_REQUEST['page'] ) || 'bp-settings' != $_REQUEST['page'] ) ) {
+		add_filter( 'bp_disable_group_avatar_uploads', array( 'Avatar_Suggestions_Group', 'display_avatars' ), 10, 1 );
+ 	}
 
 	bp_register_group_extension( 'Avatar_Suggestions_Group' );
 }
