@@ -1,28 +1,37 @@
-#group-create-body .main-column #avatar-suggestions-selector {
+#group-create-body .main-column #avatar-suggestions-selector,
+#buddypress .group-create-form #bp-suggestions-avatar li,
+#buddypress .standard-form #bp-suggestions-avatar li {
 	float:left;
 }
 
+ul#bp-suggestions-avatar,
 #avatar-suggestions-selector .avatar-suggestions-list ul.avatar-suggestions {
 	list-style:none;
 	clear:both;
 	overflow: hidden;
 }
 
-#avatar-suggestions-selector .avatar-suggestions-list ul.avatar-suggestions li {
+ul#bp-suggestions-avatar li,
+#buddypress #item-body .standard-form ul#bp-suggestions-avatar li,
+#avatar-suggestions-selector .avatar-suggestions-list ul.avatar-suggestions li,
+#buddypress #item-body .standard-form #avatar-suggestions-selector .avatar-suggestions-list ul.avatar-suggestions li {
 	float:left;
 	margin:5px;
 }
 
+ul#bp-suggestions-avatar li img.avatar,
 #avatar-suggestions-selector .avatar-suggestions-list ul.avatar-suggestions li img.avatar {
 	cursor: pointer;
 }
 
+ul#bp-suggestions-avatar li img.avatar,
 #avatar-suggestions-selector .avatar-suggestions-list ul.avatar-suggestions li img.avatar {
-	border:solid 5px #fff;
+	border:solid 5px #fff!important;
 }
 
+ul#bp-suggestions-avatar li.selected img.avatar,
 #avatar-suggestions-selector .avatar-suggestions-list ul.avatar-suggestions li.selected img.avatar {
-	border:solid 5px #0073aa;
+	border:solid 5px #0073aa!important;
 }
 
 #bp-as-warning {

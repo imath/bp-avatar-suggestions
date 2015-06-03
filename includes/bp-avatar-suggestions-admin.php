@@ -82,8 +82,7 @@ class Avatar_Suggestions_Admin {
 		// update plugin's db version
 		add_action( 'bp_admin_init',                     array( $this, 'maybe_update'       )         );
 
-		// Make sure only one tab will be displayed
-		add_action( 'load-media-upload.php',             array( $this, 'set_media_upload'   )         );
+		add_action( 'bp_admin_enqueue_scripts',          array( $this, 'register_script'    ),   2    );
 
 		// javascript
 		add_action( 'bp_admin_enqueue_scripts',          array( $this, 'enqueue_script'     )         );
@@ -96,6 +95,9 @@ class Avatar_Suggestions_Admin {
 		add_action( 'bp_admin_tabs',                     array( $this, 'admin_tab'          )         );
 
 		add_filter( 'set-screen-option',                 array( $this, 'screen_options'     ),  10, 3 );
+
+		// Suggestions Upload
+		add_action( 'wp_ajax_avatar_suggestions_upload', array( $this, 'handle_upload'      )         );
 	}
 
 	/**
@@ -228,6 +230,39 @@ class Avatar_Suggestions_Admin {
 	}
 
 	/**
+	 * Register admin scripts
+	 *
+	 * @package BP Avatar Suggestions
+	 * @subpackage Admin
+	 * @since   1.3.0
+	 */
+	public function register_script() {
+		$bp = buddypress();
+
+		// Register the style
+		wp_register_style(
+			'bp-as-admin-style',
+			$bp->extend->avatar_suggestions->plugin_css . "bp-as-admin{$this->min}.css",
+			array( 'bp-avatar' ),
+			$bp->extend->avatar_suggestions->version
+		);
+
+		// Register the script
+		wp_register_script(
+			'bp-as-admin-js',
+			$bp->extend->avatar_suggestions->plugin_js . "bp-as-admin{$this->min}.js",
+			array(),
+			$bp->extend->avatar_suggestions->version,
+			true
+		);
+
+		// Include some data to it
+		wp_localize_script( 'bp-as-admin-js', 'bp_as_admin_vars', array(
+			'redirect'     => esc_url( add_query_arg( 'page', 'bp-avatar-suggestions', bp_get_admin_url( 'admin.php' ) ) )
+		) );
+	}
+
+	/**
 	 * Enqueue script
 	 *
 	 * @package BP Avatar Suggestions
@@ -243,13 +278,11 @@ class Avatar_Suggestions_Admin {
 		// Get BuddyPress instance
 		$bp = buddypress();
 
+		wp_enqueue_style ( 'thickbox' );
 		wp_enqueue_script( 'media-upload' );
-		add_thickbox();
-		wp_enqueue_script ( 'bp-as-admin-js', $bp->extend->avatar_suggestions->plugin_js . "bp-as-admin{$this->min}.js", array( 'jquery', 'media-upload', 'thickbox' ), $bp->extend->avatar_suggestions->version, true );
-		wp_localize_script( 'bp-as-admin-js', 'bp_as_admin_vars', array(
-			'bpas_post_id' => $this->avatar_post_id,
-			'redirect'     => add_query_arg( 'page', 'bp-avatar-suggestions', bp_get_admin_url( 'admin.php' ) )
-		) );
+
+		// Get Our Uploader
+		bp_attachments_enqueue_scripts( 'Avatar_Suggestions_Attachment' );
 	}
 
 	/**
@@ -449,7 +482,7 @@ class Avatar_Suggestions_Admin {
 			$class = "nav-tab-active";
 		}
 		?>
-		<a href="<?php echo bp_get_admin_url( add_query_arg( array( 'page' => 'bp-avatar-suggestions' ), 'admin.php' ) );?>" class="nav-tab <?php echo $class;?>" style="margin-left:-6px"><?php esc_html_e( 'Avatar Suggestions', 'bp-avatar-suggestions' );?></a>
+		<a href="<?php echo esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'bp-avatar-suggestions' ), 'admin.php' ) ) );?>" class="nav-tab <?php echo $class;?>" style="margin-left:-6px"><?php esc_html_e( 'Avatar Suggestions', 'bp-avatar-suggestions' );?></a>
 		<?php
 	}
 
@@ -503,8 +536,17 @@ class Avatar_Suggestions_Admin {
 			<h3><?php _e( 'Suggestions', 'bp-avatar-suggestions' ); ?>
 
 				<?php if ( bp_current_user_can( 'upload_files' ) ) : ?>
+					<a href="#TB_inline?width=800px&height=400px&inlineId=bp-avatar-suggestions-uploader" title="<?php esc_attr_e( 'Add new suggestion(s)', 'bp-avatar-suggestions' );?>" class="thickbox avatar_upload_image_button add-new-h2">
+						<?php echo esc_html_x( 'Add New', 'Avatar suggestions add button', 'bp-avatar-suggestions' ); ?>
+					</a>
+					<div id="bp-avatar-suggestions-uploader" style="display:none;">
+						<?php /* Markup for the uploader */ ?>
+							<div class="bp-avatar-suggestions"></div>
+							<div class="bp-avatar-status"></div>
 
-					<a href="<?php echo esc_url( admin_url( 'media-upload.php' ) );?>" class="avatar_upload_image_button add-new-h2"><?php echo esc_html_x( 'Add New', 'Avatar suggestions add button', 'bp-avatar-suggestions' ); ?></a>
+							<?php bp_attachments_get_template_part( 'uploader' );
+						/* Markup for the uploader */ ?>
+					</div>
 
 				<?php endif; ?>
 			</h3>
@@ -520,85 +562,151 @@ class Avatar_Suggestions_Admin {
 	}
 
 	/**
-	 * Set the media upload iframe for the old interface
+	 * Upload the suggestions as WordPress attachments
 	 *
 	 * @package BP Avatar Suggestions
 	 * @subpackage Admin
-	 * @since   1.2.0
+	 * @since   1.3.0
 	 */
-	public function set_media_upload() {
-		if ( empty( $_GET['bpas'] ) || 1 != $_GET['bpas'] ) {
-			return;
+	public function handle_upload() {
+		// Bail if not a POST action
+		if ( 'POST' !== strtoupper( $_SERVER['REQUEST_METHOD'] ) ) {
+			wp_die();
 		}
 
-		add_filter( 'media_upload_tabs', array( $this, 'media_upload_tabs' ), 10, 1 );
-		add_action( 'admin_head_media_upload_type_form', array( $this, 'media_upload_header' ) );
-		add_action( 'post-upload-ui', array( $this, 'warning_dimensions' ) );
-	}
+		/**
+		 * Sending the json response will be different if
+		 * the current Plupload runtime is html4
+		 */
+		$is_html4 = false;
+		if ( ! empty( $_POST['html4' ] ) ) {
+			$is_html4 = true;
+		}
 
-	/**
-	 * Make sure the old interface only displays the From my computer tab
-	 *
-	 * @package BP Avatar Suggestions
-	 * @subpackage Admin
-	 * @since   1.2.0
-	 */
-	public function media_upload_tabs( $tabs = array() ) {
-		return array_intersect_key( $tabs, array( 'type' => true ) );
-	}
+		// Check the nonce
+		check_admin_referer( 'bp-uploader' );
 
-	/**
-	 * Print some arbitrary css rules in the media upload iframe (old interface)
-	 *
-	 * @package BP Avatar Suggestions
-	 * @subpackage Admin
-	 * @since   1.2.0
-	 */
-	public function media_upload_header() {
-		?>
-		<style type="text/css" media="screen">
-		/*<![CDATA[*/
+		// Init the BuddyPress parameters
+		$bp_params = array();
 
-			/* Bubble style for Main Post type menu */
-			#media-items a.toggle,
-			#media-items table.slidetoggle thead.media-item-info,
-			#media-items table.slidetoggle tbody,
-			.upload-flash-bypass,
-			.ml-submit #save {
-				display:none;
+		// We need it to carry on
+		if ( ! empty( $_POST['bp_params' ] ) ) {
+			$bp_params = $_POST['bp_params' ];
+		} else {
+			bp_attachments_json_response( false, $is_html4 );
+		}
+
+		// Check params
+		if ( empty( $bp_params['object'] ) || empty( $bp_params['item_id'] ) || 'post' !== $bp_params['object'] || (int) $this->avatar_post_id !== (int) $bp_params['item_id'] ) {
+			bp_attachments_json_response( false, $is_html4 );
+		}
+
+		// Capability check
+		if ( ! bp_current_user_can( 'upload_files' ) ) {
+			bp_attachments_json_response( false, $is_html4 );
+		}
+
+		$suggestion_attachment = new Avatar_Suggestions_Attachment();
+		$suggestion            = $suggestion_attachment->upload( $_FILES );
+
+		// Error while trying to upload the file
+		if ( ! empty( $suggestion['error'] ) ) {
+			bp_attachments_json_response( false, $is_html4, array(
+				'type'    => 'upload_error',
+				'message' => $suggestion['error'],
+			) );
+		}
+
+		/**
+		 * Simulate WordPress's media_handle_upload() function
+		 */
+		$time = current_time( 'mysql' );
+		$post = get_post( $bp_params['item_id'] );
+
+		if ( is_a( $post, 'WP_Post' ) ) {
+			if ( substr( $post->post_date, 0, 4 ) > 0 ) {
+				$time = $post->post_date;
+			}
+		}
+
+		$name_parts = pathinfo( $suggestion['file'] );
+		$url        = $suggestion['url'];
+		$type       = $suggestion['type'];
+		$file       = $suggestion['file'];
+		$title      = $name_parts['filename'];
+		$content    = '';
+		$excerpt    = '';
+		$image_meta = @wp_read_image_metadata( $file );
+
+		if ( 0 === strpos( $type, 'image/' ) && ! empty( $image_meta ) ) {
+			if ( trim( $image_meta['title'] ) && ! is_numeric( sanitize_title( $image_meta['title'] ) ) ) {
+				$title = $image_meta['title'];
 			}
 
-		/*]]>*/
-		</style>
-		<?php
+			if ( trim( $image_meta['caption'] ) ) {
+				$excerpt = $image_meta['caption'];
+			}
+		}
+
+		// Construct the attachment array
+		$attachment = array(
+			'post_mime_type' => $type,
+			'guid'           => $url,
+			'post_parent'    => $post->ID,
+			'post_title'     => $title,
+			'post_content'   => $content,
+			'post_excerpt'   => $excerpt,
+		);
+
+		// Save the data
+		$attachment_id = wp_insert_attachment( $attachment, $file, $post->ID );
+		if ( ! is_wp_error( $attachment_id ) ) {
+
+			// Add the avatar image sizes
+			add_image_size( 'bp_avatar_suggestions', bp_core_avatar_full_width(), bp_core_avatar_full_height(), true );
+			add_filter( 'intermediate_image_sizes_advanced', array( $this, 'restrict_image_sizes' ), 10, 1 );
+
+			wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, $file ) );
+
+			// Remove it so no other attachments will be affected
+			remove_image_size( 'bp_avatar_suggestions' );
+			remove_filter( 'intermediate_image_sizes_advanced', array( $this, 'restrict_image_sizes' ), 10, 1 );
+
+			// Try to get the bp_avatar_suggestions size
+			$avatar = wp_get_attachment_image_src( $attachment_id, 'bp_avatar_suggestions', true );
+			if ( ! empty( $avatar[0] ) ) {
+				$url = $avatar[0];
+			}
+
+			// Finally return the avatar to the editor
+			bp_attachments_json_response( true, $is_html4, array(
+				'name'      => esc_html( $title ),
+				'url'       => esc_url_raw( $url ),
+			) );
+		} else {
+			bp_attachments_json_response( false, $is_html4, array(
+				'type'    => 'upload_error',
+				'message' => esc_html__( 'Something went wrong while saving the image', 'bp-avatar-suggestions' ),
+			) );
+		}
 	}
 
 	/**
-	 * Display a warning to inform about minimal dimensions
+	 * Only keep the avatar suggestions size and thumbnail one for backcompat
 	 *
 	 * @package BP Avatar Suggestions
 	 * @subpackage Admin
-	 * @since   1.2.1
+	 * @since   1.3.0
+	 *
+	 * @param  array $sizes the available WordPress image sizes
 	 */
-	public function warning_dimensions() {
-		/**
-		 * @todo  We will need to use bp_core_avatar_full_width() & bp_core_avatar_full_height()
-		 *        as soon as BuddyPress 2.3.0 will be released
-		 */
-		?>
-		<p class="wp-ui-text-notification">
-			<?php printf(
-				esc_html__( 'Make sure to upload images having dimensions > %dx%dpx.' ),
-				get_option( 'thumbnail_size_w', 150 ),
-				get_option( 'thumbnail_size_h', 150 )
-			); ?>
-		</p>
-		<?php
- 	}
+	public function restrict_image_sizes( $sizes = array() ) {
+		return array_intersect_key( $sizes, array( 'thumbnail' => true, 'bp_avatar_suggestions' => true ) );
+	}
 }
 
 /**
- * Stars Admin.
+ * Start Admin.
  *
  * @package BP Avatar Suggestions
  * @subpackage Admin

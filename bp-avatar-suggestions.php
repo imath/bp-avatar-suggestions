@@ -3,8 +3,8 @@
 Plugin Name: BP Avatar Suggestions
 Plugin URI: http://imathi.eu/tag/bp-avatar-suggestions/
 Description: Adds an avatar suggestions list to your BuddyPress powered community
-Version: 1.2.1
-Requires at least: 4.1
+Version: 1.3.0
+Requires at least: 4.2
 Tested up to: 4.2.2
 License: GNU/GPL 2
 Author: imath
@@ -35,7 +35,7 @@ class Avatar_Suggestions {
 	 *
 	 * @var      string
 	 */
-	public static $required_bp_version = '2.2';
+	public static $required_bp_version = '2.3.0';
 
 	/**
 	 * BuddyPress config.
@@ -99,7 +99,7 @@ class Avatar_Suggestions {
 	private function setup_globals() {
 
 		/** Versions & domain ***********************************/
-		$this->version       = '1.2.1';
+		$this->version       = '1.3.0';
 		$this->domain        = 'bp-avatar-suggestions';
 
 		/** Paths ***********************************************/
@@ -137,6 +137,7 @@ class Avatar_Suggestions {
 		}
 
 		if ( is_admin() ) {
+			require( $this->includes_dir . 'bp-avatar-suggestions-attachment.php' );
 			require( $this->includes_dir . 'bp-avatar-suggestions-admin.php' );
 		}
 	}
@@ -196,7 +197,12 @@ class Avatar_Suggestions {
 		}
 
 		// Get the url of the avatar
-		$avatar_url = wp_get_attachment_image_src( $attachment_id, array( 150, 150 ) );
+		$avatar_url = wp_get_attachment_image_src( $attachment_id, 'bp_avatar_suggestions' );
+
+		// Fallback on thumbnail
+		if ( empty( $avatar_url[0] ) || empty( $avatar_url[3] ) ) {
+			$avatar_url = wp_get_attachment_image_src( $attachment_id, 'thumbnail' );
+		}
 
 		// Delete all user metas having the $avatar_url
 		delete_metadata( 'user', false, 'user_avatar_choice', $avatar_url[0], true );

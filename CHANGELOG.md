@@ -1,6 +1,15 @@
 Versions
 ========
 
+1.3
+---
+
++ requires WordPress 4.2.
++ requires BuddyPress 2.3.
++ Uses the new BuddyPress Avatar UI by adding a new tav for suggestions.
++ Adds its own image size to match avatar full dimensions (these can > 150x150)
++ Uses the BuddyPress attachments API to improve the upload process and user feedbacks
+
 1.2.1
 -----
 

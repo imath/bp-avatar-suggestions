@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BP Avatar Suggestions 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/support/plugin/bp-avatar-suggestions\n"
-"POT-Creation-Date: 2015-05-15 22:02:46+00:00\n"
-"PO-Revision-Date: 2015-05-16 00:04+0100\n"
+"POT-Creation-Date: 2015-05-17 14:01:05+00:00\n"
+"PO-Revision-Date: 2015-05-17 16:07+0100\n"
 "Last-Translator: imath <mathchristo@yahoo.fr>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -15,51 +15,51 @@ msgstr ""
 "X-Generator: Poedit 1.7.1\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: bp-avatar-suggestions.php:247
+#: bp-avatar-suggestions.php:253
 msgid "%1$s requires at least version %2$s of BuddyPress."
 msgstr "%1$s requiert à minima la version %2$s de BuddyPress"
 
-#: bp-avatar-suggestions.php:257
+#: bp-avatar-suggestions.php:263
 msgid "%s and BuddyPress need to share the same network configuration."
 msgstr "%s a besoin de partager la même configuration réseau que BuddyPress."
 
-#: includes/bp-avatar-suggestions-admin.php:139
-#: includes/bp-avatar-suggestions-admin.php:452
-#: includes/bp-avatar-suggestions-admin.php:495
+#: includes/bp-avatar-suggestions-admin.php:141
+#: includes/bp-avatar-suggestions-admin.php:485
+#: includes/bp-avatar-suggestions-admin.php:528
 msgid "Avatar Suggestions"
 msgstr "Suggestions d&#39;Avatars"
 
-#: includes/bp-avatar-suggestions-admin.php:170
+#: includes/bp-avatar-suggestions-admin.php:172
 msgid "BP Avatar Suggestions required post (do not edit or delete)"
 msgstr "Article requis par BP Avatar Suggestions (ne pas modifier ou supprimer)"
 
-#: includes/bp-avatar-suggestions-admin.php:212
+#: includes/bp-avatar-suggestions-admin.php:214
 msgid "Enable suggestions for users"
 msgstr "Activer les suggestions pour les utilisateurs"
 
-#: includes/bp-avatar-suggestions-admin.php:226
+#: includes/bp-avatar-suggestions-admin.php:228
 msgid "Enable suggestions for groups"
 msgstr "Activer les suggestions pour les groupes"
 
-#: includes/bp-avatar-suggestions-admin.php:271
-#: includes/bp-avatar-suggestions-admin.php:272
+#: includes/bp-avatar-suggestions-admin.php:304
+#: includes/bp-avatar-suggestions-admin.php:305
 msgid "Avatar Suggestions Settings"
 msgstr "Réglages Suggestions Avatar"
 
-#: includes/bp-avatar-suggestions-admin.php:376
+#: includes/bp-avatar-suggestions-admin.php:409
 msgctxt "Suggestions per page (screen options)"
 msgid "Suggestions"
 msgstr "Suggestions"
 
-#: includes/bp-avatar-suggestions-admin.php:381
+#: includes/bp-avatar-suggestions-admin.php:414
 msgid "Overview"
 msgstr "Vue d&#39;ensemble"
 
-#: includes/bp-avatar-suggestions-admin.php:383
+#: includes/bp-avatar-suggestions-admin.php:416
 msgid "This is the administration screen for avatar suggestions."
 msgstr "Voici l&#39;écran d&#39;administration des suggestions d&#39;avatar"
 
-#: includes/bp-avatar-suggestions-admin.php:384
+#: includes/bp-avatar-suggestions-admin.php:417
 msgid ""
 "From the screen options, you can customize the displayed columns and the pagination "
 "of this screen."
@@ -67,7 +67,7 @@ msgstr ""
 "Depuis les options d&#39;écran, vous pouvez personnaliser les colonnes affichées et "
 "la pagination de cet écran."
 
-#: includes/bp-avatar-suggestions-admin.php:385
+#: includes/bp-avatar-suggestions-admin.php:418
 msgid ""
 "You can add a new suggestion by clicking on the &quot;Add new&quot; button to open "
 "the uploader window."
@@ -75,7 +75,7 @@ msgstr ""
 "Vous pouvez ajouter une nouvelle suggestion en cliquant sur le bouton &quot;Ajouter "
 "nouvelle&quot; pour ouvrir la fenêtre d&#39;upload."
 
-#: includes/bp-avatar-suggestions-admin.php:386
+#: includes/bp-avatar-suggestions-admin.php:419
 msgid ""
 " Send your image files from this window and once every image has been uploaded, "
 "simply close the uploader window to refresh the list of suggestions."
@@ -84,11 +84,11 @@ msgstr ""
 "été transmise, fermer la fenêtre d&#39;upload pour rafraîchir la liste des "
 "suggestions."
 
-#: includes/bp-avatar-suggestions-admin.php:391
+#: includes/bp-avatar-suggestions-admin.php:424
 msgid "Actions"
 msgstr "Actions"
 
-#: includes/bp-avatar-suggestions-admin.php:393
+#: includes/bp-avatar-suggestions-admin.php:426
 msgid ""
 "Hovering over a row in the suggestions list will display the delete link to "
 "eventually remove an avatar."
@@ -96,13 +96,13 @@ msgstr ""
 "Survoler une ligne de la liste des suggestions affichera le lien de suppression pour "
 "vous permettre d&#39;éventuellement retirer une suggestion."
 
-#: includes/bp-avatar-suggestions-admin.php:394
+#: includes/bp-avatar-suggestions-admin.php:427
 msgid "If you need to remove more than one avatar, you can use the Delete Bulk action."
 msgstr ""
 "Si vous avez besoin de retirer plus d&#39;une suggestion, vous pouvez utiliser l&#39;"
 "action de masse de suppression."
 
-#: includes/bp-avatar-suggestions-admin.php:395
+#: includes/bp-avatar-suggestions-admin.php:428
 msgid ""
 "To change the avatar type, activate the corresponding checkboxes and use the &quot;"
 "Change avatar type&quot; dropdown to select the type before clicking on the &quot;"
@@ -112,11 +112,11 @@ msgstr ""
 "utilisez la liste déroulante &quot;Changer le type d&#39;avatar&quot; pour "
 "sélectionner le type avant de cliquer sur le bouton &quot;Changer&quot;"
 
-#: includes/bp-avatar-suggestions-admin.php:400
+#: includes/bp-avatar-suggestions-admin.php:433
 msgid "For more information:"
 msgstr "Pour plus d&#39;informations:"
 
-#: includes/bp-avatar-suggestions-admin.php:401
+#: includes/bp-avatar-suggestions-admin.php:434
 msgid ""
 "<a href=\"https://wordpress.org/support/plugin/bp-avatar-suggestions\">Support "
 "Forums</a>"
@@ -124,62 +124,80 @@ msgstr ""
 "<a href=\"https://wordpress.org/support/plugin/bp-avatar-suggestions\">Forum "
 "Support</a>"
 
-#: includes/bp-avatar-suggestions-admin.php:478
+#: includes/bp-avatar-suggestions-admin.php:511
 msgctxt "suggestion deleted"
 msgid "%s suggestion was deleted."
 msgid_plural "%s suggestions were deleted."
 msgstr[0] "%s suggestion a été supprimée."
 msgstr[1] "%s suggestions ont été supprimées."
 
-#: includes/bp-avatar-suggestions-admin.php:485
+#: includes/bp-avatar-suggestions-admin.php:518
 msgctxt "suggestion type edited"
 msgid "%s suggestion had their type changed."
 msgid_plural "%s suggestions had their type changed."
 msgstr[0] "%s suggestion a vu son type changé."
 msgstr[1] "%s suggestions ont vu leurs types changés."
 
-#: includes/bp-avatar-suggestions-admin.php:503
+#: includes/bp-avatar-suggestions-admin.php:536
+#: includes/bp-avatar-suggestions-front.php:424
 msgid "Suggestions"
 msgstr "Suggestions"
 
-#: includes/bp-avatar-suggestions-admin.php:507
+#: includes/bp-avatar-suggestions-admin.php:539
+msgid "Add new suggestion(s)"
+msgstr "Ajouter de nouvelles suggestions"
+
+#: includes/bp-avatar-suggestions-admin.php:540
 msgctxt "Avatar suggestions add button"
 msgid "Add New"
 msgstr "Ajouter Nouvelle"
 
-#: includes/bp-avatar-suggestions-admin.php:591
-msgid "Make sure to upload images having dimensions > %dx%dpx."
-msgstr "Assurez vous de télécharger des images ayant des dimensions > %dx%dpx."
+#: includes/bp-avatar-suggestions-admin.php:689
+msgid "Something went wrong while saving the image"
+msgstr "Un problème est survenu pendant la sauvegarde de l&#39;image"
 
-#: includes/bp-avatar-suggestions-front.php:294
-msgid "Success: Avatar saved."
-msgstr "Succès: l&#39;avatar a été modifié."
+#: includes/bp-avatar-suggestions-attachment.php:34
+msgid "The width x height of the profile photo should be at least %d x %d px."
+msgstr ""
+"La largeur x hauteur de la photo de profil devrait être à minima de %d x %d px."
 
-#: includes/bp-avatar-suggestions-front.php:295
-msgid "Error: Avatar not saved."
-msgstr "Erreur: l&#39;avatar n&#39;a pas été modifié."
+#: includes/bp-avatar-suggestions-front.php:451
+msgid "Success: profile photo saved."
+msgstr "Succès : photo de profil sauvegardée."
 
-#: includes/bp-avatar-suggestions-front.php:296
-msgid "Success: Avatar removed."
-msgstr "Succès: l&#39;avatar a été supprimé."
+#: includes/bp-avatar-suggestions-front.php:452
+msgid "Error: profile photo not saved."
+msgstr "Erreur : photo de profil non sauvegardée"
 
-#: includes/bp-avatar-suggestions-front.php:297
-msgid "Error: Avatar not removed."
-msgstr "Erreur: l&#39;avatar n&#39;a pas été supprimé."
+#: includes/bp-avatar-suggestions-front.php:453
+msgid "Success: profile photo removed."
+msgstr "Succès : la photo de profil a été supprimée."
 
-#: includes/bp-avatar-suggestions-front.php:298
+#: includes/bp-avatar-suggestions-front.php:454
+msgid "Error: profile photo not removed."
+msgstr "Erreur : la photo de profil n&#39;a pas été supprimée."
+
+#: includes/bp-avatar-suggestions-front.php:455
 msgid "Please wait, requesting available suggestions."
 msgstr "Chargement des suggestions, merci de patienter."
 
-#: includes/bp-avatar-suggestions-front.php:299
+#: includes/bp-avatar-suggestions-front.php:456
 msgid "There was a problem while requesting suggestions."
 msgstr "Un problème est survenu pendant le chargement des suggestions."
 
-#: includes/bp-avatar-suggestions-front.php:353
+#: includes/bp-avatar-suggestions-front.php:457
+msgid "Click on one of the suggestions to use it as your profile photo."
+msgstr "Cliquer sur une des suggestion pour l&#39;utiliser comme photo de profil."
+
+#: includes/bp-avatar-suggestions-front.php:458
+msgid "To delete your profile photo, click on the selected suggestion."
+msgstr "Pour supprimer votre photo de profil, cliquez sur la suggestion sélectionnée."
+
+#: includes/bp-avatar-suggestions-front.php:558
 msgid "You can select one of the suggested avatars below"
 msgstr "Vous pouvez choisir parmi les avatars suggérés ci-dessous"
 
-#: includes/bp-avatar-suggestions-front.php:354
+#: includes/bp-avatar-suggestions-front.php:559
 msgid ""
 "Click to add or remove the suggested avatar. If a suggestion is selected, you will "
 "need to remove it before choosing another one."
@@ -274,6 +292,9 @@ msgstr "imath"
 #. Author URI of the plugin/theme
 msgid "http://imathi.eu/"
 msgstr "http://imathi.eu/"
+
+#~ msgid "Make sure to upload images having dimensions > %dx%dpx."
+#~ msgstr "Assurez vous de télécharger des images ayant des dimensions > %dx%dpx."
 
 #~ msgid "%s requires the BuddyPress extended profile component"
 #~ msgstr "%s requiert le composant Profils étendus de BuddyPress "
