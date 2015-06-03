@@ -35,7 +35,7 @@ class Avatar_Suggestions {
 	 *
 	 * @var      string
 	 */
-	public static $required_bp_version = '2.3.0-rc';
+	public static $required_bp_version = '2.3.0';
 
 	/**
 	 * BuddyPress config.
