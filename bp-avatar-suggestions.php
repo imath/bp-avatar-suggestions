@@ -3,7 +3,7 @@
 Plugin Name: BP Avatar Suggestions
 Plugin URI: http://imathi.eu/tag/bp-avatar-suggestions/
 Description: Adds an avatar suggestions list to your BuddyPress powered community
-Version: 1.3.0-beta
+Version: 1.3.0
 Requires at least: 4.2
 Tested up to: 4.2.2
 License: GNU/GPL 2
@@ -35,7 +35,7 @@ class Avatar_Suggestions {
 	 *
 	 * @var      string
 	 */
-	public static $required_bp_version = '2.3-beta';
+	public static $required_bp_version = '2.3.0-rc';
 
 	/**
 	 * BuddyPress config.
@@ -99,7 +99,7 @@ class Avatar_Suggestions {
 	private function setup_globals() {
 
 		/** Versions & domain ***********************************/
-		$this->version       = '1.3.0-beta';
+		$this->version       = '1.3.0';
 		$this->domain        = 'bp-avatar-suggestions';
 
 		/** Paths ***********************************************/

@@ -2,9 +2,9 @@
 Contributors: imath
 Donate link: http://imathi.eu/donations/
 Tags: BuddyPress, avatar
-Requires at least: 4.1
+Requires at least: 4.2
 Tested up to: 4.2.2
-Stable tag: 1.2.1
+Stable tag: 1.3.0
 License: GPLv2
 
 Avatar suggestions for the members and the groups of your BuddyPress powered community.
