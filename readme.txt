@@ -3,7 +3,7 @@ Contributors: imath
 Donate link: http://imathi.eu/donations/
 Tags: BuddyPress, avatar
 Requires at least: 4.2
-Tested up to: 4.2.2
+Tested up to: 4.3.1
 Stable tag: 1.3.1
 License: GPLv2
 
