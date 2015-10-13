@@ -151,12 +151,12 @@ class Avatar_Suggestions_Front {
 				// Try to use the bp_avatar_suggestions if it's an intermediate size
 				$suggestion_size['bp_avatar_suggestions'] = image_downsize( $avatar['id'], 'bp_avatar_suggestions' );
 
-				if ( ! empty( $suggestion_size['bp_avatar_suggestions'][3] ) ) {
+				if ( ! empty( $suggestion_size['bp_avatar_suggestions'] ) ) {
 					$suggestion_size['thumbnail'] = $suggestion_size['bp_avatar_suggestions'];
 				}
 			}
 
-			if ( ! empty( $suggestion_size['thumbnail'] ) && $suggestion_size['thumbnail'][3] ) {
+			if ( ! empty( $suggestion_size['thumbnail'] ) ) {
 				$avatar['sizes']['thumbnail'] = array(
 					'height'      => $suggestion_size['thumbnail'][2],
 					'width'       => $suggestion_size['thumbnail'][1],
