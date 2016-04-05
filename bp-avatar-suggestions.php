@@ -361,6 +361,7 @@ class Avatar_Suggestions {
 	 *
 	 * @package BP Avatar Suggestions
 	 * @since   1.1.0
+	 * @since   1.3.2 Use load_plugin_textdomain()
 	 *
 	 * @uses get_locale() to get the language of WordPress config
 	 * @uses load_texdomain() to load the translation if any is available for the language
@@ -379,6 +380,9 @@ class Avatar_Suggestions {
 
 		// Look in local /wp-content/plugins/bp-avatar-suggestions/languages/ folder
 		load_textdomain( $this->domain, $mofile_local );
+
+		// Look in global /wp-content/languages/plugins/
+		load_plugin_textdomain( $this->domain );
 	}
 
 }
