@@ -3,9 +3,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: BP Avatar Suggestions 1.0\n"
-"Report-Msgid-Bugs-To: http://wordpress.org/support/plugin/bp-avatar-suggestions\n"
-"POT-Creation-Date: 2015-05-17 14:01:05+00:00\n"
-"PO-Revision-Date: 2015-05-17 16:07+0100\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/bp-avatar-suggestions\n"
+"POT-Creation-Date: 2016-04-05 23:01:39+00:00\n"
+"PO-Revision-Date: 2016-04-06 01:03+0100\n"
 "Last-Translator: imath <mathchristo@yahoo.fr>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -25,7 +25,7 @@ msgstr "%s a besoin de partager la même configuration réseau que BuddyPress."
 
 #: includes/bp-avatar-suggestions-admin.php:141
 #: includes/bp-avatar-suggestions-admin.php:485
-#: includes/bp-avatar-suggestions-admin.php:528
+#: includes/bp-avatar-suggestions-admin.php:529
 msgid "Avatar Suggestions"
 msgstr "Suggestions d&#39;Avatars"
 
@@ -138,21 +138,25 @@ msgid_plural "%s suggestions had their type changed."
 msgstr[0] "%s suggestion a vu son type changé."
 msgstr[1] "%s suggestions ont vu leurs types changés."
 
-#: includes/bp-avatar-suggestions-admin.php:536
+#: includes/bp-avatar-suggestions-admin.php:527
+msgid "BuddyPress Settings"
+msgstr "﻿Paramètres de BuddyPress"
+
+#: includes/bp-avatar-suggestions-admin.php:537
 #: includes/bp-avatar-suggestions-front.php:424
 msgid "Suggestions"
 msgstr "Suggestions"
 
-#: includes/bp-avatar-suggestions-admin.php:539
+#: includes/bp-avatar-suggestions-admin.php:540
 msgid "Add new suggestion(s)"
 msgstr "Ajouter de nouvelles suggestions"
 
-#: includes/bp-avatar-suggestions-admin.php:540
+#: includes/bp-avatar-suggestions-admin.php:541
 msgctxt "Avatar suggestions add button"
 msgid "Add New"
 msgstr "Ajouter Nouvelle"
 
-#: includes/bp-avatar-suggestions-admin.php:689
+#: includes/bp-avatar-suggestions-admin.php:690
 msgid "Something went wrong while saving the image"
 msgstr "Un problème est survenu pendant la sauvegarde de l&#39;image"
 
@@ -359,9 +363,6 @@ msgstr "http://imathi.eu/"
 
 #~ msgid "We were not able to achieve this action"
 #~ msgstr "Impossible de réaliser cette action."
-
-#~ msgid "BuddyPress Settings"
-#~ msgstr "Réglages BuddyPress"
 
 #~ msgid "Settings updated !"
 #~ msgstr "Réglages enregistrés !"

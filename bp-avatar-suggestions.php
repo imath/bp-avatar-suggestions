@@ -3,9 +3,9 @@
 Plugin Name: BP Avatar Suggestions
 Plugin URI: http://imathi.eu/tag/bp-avatar-suggestions/
 Description: Adds an avatar suggestions list to your BuddyPress powered community
-Version: 1.3.1
+Version: 1.3.2
 Requires at least: 4.2
-Tested up to: 4.3.1
+Tested up to: 4.5
 License: GNU/GPL 2
 Author: imath
 Author URI: http://imathi.eu/
@@ -35,7 +35,7 @@ class Avatar_Suggestions {
 	 *
 	 * @var      string
 	 */
-	public static $required_bp_version = '2.3.0';
+	public static $required_bp_version = '2.5.0';
 
 	/**
 	 * BuddyPress config.
@@ -99,7 +99,7 @@ class Avatar_Suggestions {
 	private function setup_globals() {
 
 		/** Versions & domain ***********************************/
-		$this->version       = '1.3.1';
+		$this->version       = '1.3.2';
 		$this->domain        = 'bp-avatar-suggestions';
 
 		/** Paths ***********************************************/
@@ -361,6 +361,7 @@ class Avatar_Suggestions {
 	 *
 	 * @package BP Avatar Suggestions
 	 * @since   1.1.0
+	 * @since   1.3.2 Use load_plugin_textdomain()
 	 *
 	 * @uses get_locale() to get the language of WordPress config
 	 * @uses load_texdomain() to load the translation if any is available for the language
@@ -379,6 +380,9 @@ class Avatar_Suggestions {
 
 		// Look in local /wp-content/plugins/bp-avatar-suggestions/languages/ folder
 		load_textdomain( $this->domain, $mofile_local );
+
+		// Look in global /wp-content/languages/plugins/
+		load_plugin_textdomain( $this->domain );
 	}
 
 }

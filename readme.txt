@@ -3,8 +3,8 @@ Contributors: imath
 Donate link: http://imathi.eu/donations/
 Tags: BuddyPress, avatar
 Requires at least: 4.2
-Tested up to: 4.3.1
-Stable tag: 1.3.1
+Tested up to: 4.5
+Stable tag: 1.3.2
 License: GPLv2
 
 Avatar suggestions for the members and the groups of your BuddyPress powered community.
@@ -39,6 +39,12 @@ Please add an issue <a href="https://github.com/imath/bp-avatar-suggestions/issu
 
 == Changelog ==
 
+= 1.3.2 =
+* Use `load_plugin_textdomain` so that plugin can be translated within the WordPress.org repository
+* Adapts the BuddyPress settings tab layout to changes introduced in BuddyPress 2.5.
+* requires BuddyPress 2.5
+* Tested Up to WordPress 4.5
+
 = 1.3.1 =
 * Fixes a bug when the uploaded image is exactly 150x150px. Props @shpitzyl
 
@@ -69,6 +75,10 @@ Please add an issue <a href="https://github.com/imath/bp-avatar-suggestions/issu
 * Plugin birth..
 
 == Upgrade Notice ==
+
+= 1.3.2 =
+* Requires BuddyPress 2.5
+* Please make sure to backup your database before upgrading the plugin.
 
 = 1.3.1 =
 * Requires BuddyPress 2.3

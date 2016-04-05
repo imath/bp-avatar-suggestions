@@ -1,6 +1,17 @@
 Versions
 ========
 
+1.3.2
+-----
++ Use `load_plugin_textdomain` so that plugin can be translated within the WordPress.org repository
++ Adapts the BuddyPress settings tab layout to changes introduced in BuddyPress 2.5.
++ requires BuddyPress 2.5
++ Tested Up to WordPress 4.5
+
+1.3.1
+-----
++ Fixes a bug when the uploaded image is exactly 150x150px. Props @shpitzyl
+
 1.3
 ---
 

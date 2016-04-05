@@ -482,7 +482,7 @@ class Avatar_Suggestions_Admin {
 			$class = "nav-tab-active";
 		}
 		?>
-		<a href="<?php echo esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'bp-avatar-suggestions' ), 'admin.php' ) ) );?>" class="nav-tab <?php echo $class;?>" style="margin-left:-6px"><?php esc_html_e( 'Avatar Suggestions', 'bp-avatar-suggestions' );?></a>
+		<a href="<?php echo esc_url( bp_get_admin_url( add_query_arg( array( 'page' => 'bp-avatar-suggestions' ), 'admin.php' ) ) );?>" class="nav-tab <?php echo $class;?>"><?php esc_html_e( 'Avatar Suggestions', 'bp-avatar-suggestions' );?></a>
 		<?php
 	}
 
@@ -524,6 +524,7 @@ class Avatar_Suggestions_Admin {
 		?>
 
 		<div class="wrap">
+			<h1><?php esc_html_e( 'BuddyPress Settings', 'bp-avatar-suggestions' ); ?></h1>
 
 			<h2 class="nav-tab-wrapper"><?php bp_core_admin_tabs( __( 'Avatar Suggestions', 'bp-avatar-suggestions' ) ); ?></h2>
 
